@@ -38,7 +38,11 @@ fn main() {
                     // update_subscriber: Some(add_log_layer),
     });
 
-    info!("Starting bevygap-spaceships server..");
+    info!("bevygap-spaceships server main()!");
+    info!("⭐️ Build time: {}", env!("VERGEN_BUILD_TIMESTAMP"));
+    info!("⭐️ Git desc: {}", env!("VERGEN_GIT_DESCRIBE"));
+    info!("⭐️ Git sha: {}", env!("VERGEN_GIT_SHA"));
+    info!("⭐️ Git commit @ {}", env!("VERGEN_GIT_COMMIT_TIMESTAMP"));
 
     // configure the network configuration
     let net_config = build_server_netcode_config();
@@ -103,6 +107,8 @@ pub fn build_server_netcode_config() -> server::NetConfig {
     let key = PRIVATE_KEY;
 
     info!("🔐 Using private key: {:?}", key);
+
+    println!("🔐 Using private key: {key:?}");
 
     let netcode_config = server::NetcodeConfig::default()
         .with_protocol_id(PROTOCOL_ID)
