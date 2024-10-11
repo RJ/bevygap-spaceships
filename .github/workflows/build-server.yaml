@@ -22,6 +22,10 @@ env:
   DOCKER_USERNAME: "robot$metabrew-kfk5fha5fsct+client-push"
   # Remember to set ${{ secrets.DOCKER_PASSWORD }} 
 
+# None of the github runner's ubuntu versions have the same GLIBC as
+# the distroless debian12, so we use x86_64-unknown-linux-musl to statically link the server.
+
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -47,7 +51,7 @@ jobs:
           target: x86_64-unknown-linux-musl
 
       - name: Install system deps
-        run: sudo apt-get install -y --no-install-recommends libudev-dev
+        run: sudo apt-get install -y --no-install-recommends libudev-dev musl-tools
       
       - name: Run sccache-cache
         uses: mozilla-actions/sccache-action@v0.0.6
