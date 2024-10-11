@@ -6,7 +6,9 @@ authors.workspace = true
 publish.workspace = true
 
 [features]
+default = ["bevygap"]
 gui = ["shared/gui"]
+bevygap = ["dep:bevygap_server_plugin"]
 
 [dependencies]
 bevy.workspace = true
@@ -16,6 +18,7 @@ avian2d.workspace = true
 serde.workspace = true
 async-compat.workspace = true
 leafwing-input-manager.workspace = true
+bevygap_server_plugin = {git = "https://github.com/RJ/bevygap.git", optional = true}
 
 [lints]
 workspace = true

@@ -1,5 +1,7 @@
 use bevy::prelude::*;
-use client::{ClientCommands, PredictionSet, Rollback};
+#[cfg(feature = "bevygap")]
+use bevygap_client_plugin::prelude::*;
+use client::{PredictionSet, Rollback};
 use leafwing_input_manager::prelude::*;
 use lightyear::inputs::leafwing::input_buffer::InputBuffer;
 use lightyear::prelude::client::*;
@@ -9,7 +11,23 @@ pub struct BLEMClientPlugin;
 
 impl Plugin for BLEMClientPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, init);
+        #[cfg(feature = "bevygap")]
+        {
+            // Insert our own BevygapClientConfig here to set matchmaker url:
+            app.insert_resource(BevygapClientConfig {
+                wannaplay_url: "http://127.0.0.1:3000/wannaplay".to_string(),
+                ..default()
+            });
+            app.add_plugins(BevygapClientPlugin);
+        }
+
+        app.add_systems(Startup, connect_client);
+
+        app.add_systems(
+            Update,
+            on_bevygap_state_change.run_if(state_changed::<BevygapClientState>),
+        );
+
         app.add_systems(
             PreUpdate,
             handle_connection
@@ -59,9 +77,15 @@ impl Plugin for BLEMClientPlugin {
     }
 }
 
-// Startup system for the client
-pub(crate) fn init(mut commands: Commands) {
+fn connect_client(mut commands: Commands) {
+    #[cfg(not(feature = "bevygap"))]
     commands.connect_client();
+    #[cfg(feature = "bevygap")]
+    commands.bevygap_connect_client();
+}
+
+fn on_bevygap_state_change(state: Res<State<BevygapClientState>>) {
+    info!("Bevygap client state = {state:?}");
 }
 
 /// Listen for events to know when the client is connected, and spawn a text entity

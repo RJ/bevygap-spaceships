@@ -1,6 +1,8 @@
 use bevy::color::palettes::css;
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
+#[cfg(feature = "bevygap")]
+use bevygap_server_plugin::prelude::*;
 use leafwing_input_manager::prelude::*;
 use lightyear::prelude::server::{Replicate, SyncTarget};
 use lightyear::prelude::{server::*, *};
@@ -12,7 +14,19 @@ pub struct BLEMServerPlugin;
 
 impl Plugin for BLEMServerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (start_server, init));
+        #[cfg(feature = "bevygap")]
+        {
+            // only start listening once bevygap setup complete
+            app.add_plugins(BevygapServerPlugin::default());
+            app.observe(start_listening_once_bevygap_ready);
+        }
+        #[cfg(not(feature = "bevygap"))]
+        {
+            // without bevygap we just start listening immediately.
+            app.add_systems(Startup, start_listening);
+        }
+
+        app.add_systems(Startup, init);
         app.add_systems(
             PreUpdate,
             // this system will replicate the inputs of a client to other clients
@@ -56,8 +70,14 @@ fn update_player_metrics(
     }
 }
 
-/// System to start the server at Startup
-fn start_server(mut commands: Commands) {
+#[cfg(not(feature = "bevygap"))]
+fn start_listening(mut commands: Commands) {
+    commands.start_server();
+}
+
+#[cfg(feature = "bevygap")]
+fn start_listening_once_bevygap_ready(_trigger: Trigger<BevygapReady>, mut commands: Commands) {
+    info!("Starting to listen - bevygap reports ready");
     commands.start_server();
 }
 
