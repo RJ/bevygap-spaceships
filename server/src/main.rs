@@ -100,6 +100,8 @@ pub fn build_server_netcode_config() -> server::NetConfig {
     #[cfg(feature = "bevygap")]
     let key = PRIVATE_KEY;
 
+    info!("🔐 Using private key: {:?}", key);
+
     let netcode_config = server::NetcodeConfig::default()
         .with_protocol_id(PROTOCOL_ID)
         .with_key(key);
