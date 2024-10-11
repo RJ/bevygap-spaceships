@@ -5,9 +5,9 @@
 # FROM gcr.io/distroless/cc-debian12:debug
 FROM gcr.io/distroless/cc-debian12
 WORKDIR /app
-COPY ./target/release/server /app/
 COPY ./assets/ /app/assets/
 COPY ./certificates/ /app/certificates/
+COPY ./target/x86_64-unknown-linux-gnu/release/server /app/
 
 
 ENTRYPOINT ["./server"]
