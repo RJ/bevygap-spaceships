@@ -163,7 +163,7 @@ fn update_player_label(
     >,
     tick_manager: Res<TickManager>,
 ) {
-    for (e, player, mut label, input_buffer, score) in q.iter_mut() {
+    for (_e, player, mut label, input_buffer, score) in q.iter_mut() {
         // hopefully this is positive, ie we have received remote player inputs before they are needed.
         // this can happen because of input_delay. The server receives inputs in advance of
         // needing them, and rebroadcasts to other players.
@@ -263,9 +263,8 @@ fn draw_predicted_entities(
             Or<(With<PreSpawnedPlayerObject>, With<Predicted>)>,
         ),
     >,
-    tick_manager: Res<TickManager>,
 ) {
-    for (e, position, rotation, color, collider, prespawned, opt_action, opt_ib) in &predicted {
+    for (_e, position, rotation, color, collider, prespawned, opt_action, opt_ib) in &predicted {
         // render prespawned translucent until acknowledged by the server
         // (at which point the PreSpawnedPlayerObject component is removed)
         let col = if prespawned {

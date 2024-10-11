@@ -5,7 +5,7 @@ use bevy::utils::Duration;
 use leafwing_input_manager::prelude::*;
 use serde::{Deserialize, Serialize};
 
-use lightyear::client::components::{ComponentSyncMode, LerpFn};
+use lightyear::client::components::ComponentSyncMode;
 // use lightyear::client::interpolation::LinearInterpolator;
 // use lightyear::prelude::client::{self, LeafwingInputConfig};
 use lightyear::prelude::server::{Replicate, SyncTarget};

@@ -1,7 +1,6 @@
 use bevy::color::palettes::css;
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
-use bevygap_server_plugin::prelude::*;
 use leafwing_input_manager::prelude::*;
 use lightyear::prelude::server::{Replicate, SyncTarget};
 use lightyear::prelude::{server::*, *};
@@ -236,11 +235,11 @@ pub(crate) fn handle_hit_event(
     for ev in events.read() {
         // did they hit a player?
         if let Some(victim_entity) = ev.victim_client_id.and_then(client_id_to_player_entity) {
-            if let Ok((player, mut score)) = player_q.get_mut(victim_entity) {
+            if let Ok((_player, mut score)) = player_q.get_mut(victim_entity) {
                 score.0 -= 1;
             }
             if let Some(shooter_entity) = client_id_to_player_entity(ev.bullet_owner) {
-                if let Ok((player, mut score)) = player_q.get_mut(shooter_entity) {
+                if let Ok((_player, mut score)) = player_q.get_mut(shooter_entity) {
                     score.0 += 1;
                 }
             }
@@ -260,14 +259,6 @@ pub(crate) fn player_movement(
 ) {
     let tick = tick_manager.tick();
     for (action_state, mut aiq) in q.iter_mut() {
-        // if !aiq.action.get_pressed().is_empty() {
-        //     info!(
-        //         "🎹 {:?} {tick:?} = {:?}",
-        //         aiq.player.client_id,
-        //         aiq.action.get_pressed(),
-        //     );
-        // }
-        // check for missing inputs, and set them to default? or sustain for 1 tick?
         apply_action_state_to_player_movement(action_state, 0, &mut aiq, tick);
     }
 }

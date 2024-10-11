@@ -146,19 +146,10 @@ pub struct ApplyInputsQuery {
 /// applies forces based on action state inputs
 pub fn apply_action_state_to_player_movement(
     action: &ActionState<PlayerActions>,
-    staleness: u16,
+    _staleness: u16,
     aiq: &mut ApplyInputsQueryItem,
-    tick: Tick,
+    _tick: Tick,
 ) {
-    // if !action.get_pressed().is_empty() {
-    //     info!(
-    //         "🎹 {} {:?} {tick:?} = {:?} staleness = {staleness}",
-    //         if staleness > 0 { "😐" } else { "" },
-    //         aiq.player.client_id,
-    //         action.get_pressed(),
-    //     );
-    // }
-
     let ex_force = &mut aiq.ex_force;
     let rot = &aiq.rot;
     let ang_vel = &mut aiq.ang_vel;
@@ -223,7 +214,7 @@ pub fn shared_player_firing(
         color,
         action,
         mut weapon,
-        is_local,
+        _is_local,
         player,
     ) in q.iter_mut()
     {
@@ -351,7 +342,6 @@ pub fn process_collisions(
     bullet_q: Query<(&BulletMarker, &ColorComponent, &Position)>,
     player_q: Query<&Player>,
     mut commands: Commands,
-    tick_manager: Res<TickManager>,
     identity: NetworkIdentity,
     mut hit_ev_writer: EventWriter<BulletHitEvent>,
 ) {

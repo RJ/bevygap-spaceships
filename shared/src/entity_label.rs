@@ -43,11 +43,7 @@ impl Default for EntityLabel {
 pub struct EntityLabelChild;
 
 /// Add the child entity containing the Text2dBundle
-fn label_added(
-    asset_server: Res<AssetServer>,
-    q: Query<(Entity, &EntityLabel), Added<EntityLabel>>,
-    mut commands: Commands,
-) {
+fn label_added(q: Query<(Entity, &EntityLabel), Added<EntityLabel>>, mut commands: Commands) {
     let font: Handle<Font> = Default::default();
     let mut ts = TextStyle {
         font: font.clone(),
@@ -127,7 +123,7 @@ fn fix_entity_label_rotations(
     q_parents: Query<(&Transform, &EntityLabel), Without<EntityLabelChild>>,
 ) {
     for (parent, mut transform) in q_text.iter_mut() {
-        if let Ok((parent_transform, fl)) = q_parents.get(parent.get()) {
+        if let Ok((parent_transform, _fl)) = q_parents.get(parent.get()) {
             // global transform propagation system will make the rotation 0 now
             transform.rotation = parent_transform.rotation.inverse();
         }

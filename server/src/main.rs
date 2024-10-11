@@ -1,14 +1,10 @@
+use async_compat::Compat;
 use bevy::log::{Level, LogPlugin};
 use bevy::prelude::*;
-use shared::prelude::*;
-// use bevy::prelude::*;
 use bevy::tasks::IoTaskPool;
 use lightyear::prelude::server::ServerTransport;
-// use lightyear::prelude::*;
 use lightyear::server::config::ServerConfig;
-// use lightyear::shared::log::add_log_layer;
-
-use async_compat::Compat;
+use shared::prelude::*;
 
 mod server_plugin;
 use server_plugin::*;
@@ -16,19 +12,12 @@ use server_plugin::*;
 fn main() {
     let mut app = App::new();
 
-    // don't make a primary window automatically, our render plugin will do it.
-    #[cfg(feature = "gui")]
-    let window_plugin = WindowPlugin {
-        primary_window: None,
-        ..Default::default()
-    };
     #[cfg(feature = "gui")]
     app.add_plugins(
         DefaultPlugins
             .build()
             // logger added with custom config below
-            .disable::<LogPlugin>()
-            .set(window_plugin),
+            .disable::<LogPlugin>(),
     );
 
     #[cfg(not(feature = "gui"))]
@@ -69,13 +58,7 @@ fn main() {
 }
 
 pub fn build_server_netcode_config() -> server::NetConfig {
-    // let conditioner =  args.latency.map(|latency_ms| LinkConditionerConfig {
-    //     incoming_latency: Duration::from_millis(latency_ms),
-    //     incoming_jitter: Duration::from_millis(args.jitter.unwrap_or_default()),
-    //     incoming_loss: args.packet_loss.unwrap_or_default().clamp(0., 1.),
-    // });
     let conditioner = None;
-    info!("Conditioner: {conditioner:?}");
 
     // this is async because we need to load the certificate from io
     // we need async_compat because wtransport expects a tokio reactor

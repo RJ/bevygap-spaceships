@@ -32,12 +32,8 @@ debug = false
 avian2d   = { version = "0.1.1", default-features = false, features = ["serialize", "default-collider", "enhanced-determinism", "2d", "f32", "parry-f32"] }
 lightyear = {git = "https://github.com/cBournhonesque/lightyear.git", rev = "a7aed471ee6e35e937cfa6ff3b6baec1d245fc05", features = ["webtransport", "leafwing", "avian2d"]}
 bevy = {version = "0.14", default-features = false}
-#bevy_screen_diagnostics = "0.6"
-#bevy-inspector-egui = { version = "0.25", optional = true }
 serde     = { version = "1.0.188", features = ["derive"] }
 clap      = { version = "4.5.7", features = ["derive"] }
-bevygap_client_plugin = {git = "https://github.com/RJ/bevygap.git"}
-bevygap_server_plugin = {git = "https://github.com/RJ/bevygap.git"}
 leafwing-input-manager = {version = "0.15", features = ["egui"]}
 tracing = "0.1.40"
 tracing-log = "0.2.0"

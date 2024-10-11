@@ -8,7 +8,6 @@ publish.workspace = true
 [dependencies]
 bevy.workspace = true
 shared = {path = "../shared", features = ["server"]}
-bevygap_server_plugin.workspace = true
 lightyear.workspace = true
 avian2d.workspace = true
 serde.workspace = true

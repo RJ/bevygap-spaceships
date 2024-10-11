@@ -10,16 +10,10 @@ use client_plugin::*;
 fn main() {
     let mut app = App::new();
 
-    // don't make a primary window automatically, our render plugin will do it.
-    // let window_plugin = WindowPlugin {
-    //     primary_window: None,
-    //     ..Default::default()
-    // };
     app.add_plugins(
         DefaultPlugins
             .build()
             .disable::<LogPlugin>()
-            // .set(window_plugin)
             .set(AssetPlugin {
                 meta_check: bevy::asset::AssetMetaCheck::Never,
                 ..default()

@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevygap_client_plugin::prelude::*;
 use client::{ClientCommands, PredictionSet, Rollback};
 use leafwing_input_manager::prelude::*;
 use lightyear::inputs::leafwing::input_buffer::InputBuffer;
