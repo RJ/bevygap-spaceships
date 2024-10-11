@@ -29,11 +29,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Docker meta
-      #   id: meta
-      #   uses: docker/metadata-action@v5
-      #   with:
-      #     images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME}}
     
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -57,25 +52,31 @@ jobs:
           command: build
           args: --target x86_64-unknown-linux-gnu --release -p server
 
+# built, now copy artefacts to docker container.
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME}}
 
-      # - name: build image
-      #   uses: docker/setup-buildx-action@v3
+      - name: build image
+        uses: docker/setup-buildx-action@v3
 
-      # - name: Login to Container Registry
-      #   uses: docker/login-action@v3
-      #   with:
-      #     registry: ${{ env.DOCKER_REGISTRY }}
-      #     username: ${{ env.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     push: true
-      #     context: .
-      #     file: ./server/Dockerfile
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: .
+          file: ./server/Dockerfile
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
