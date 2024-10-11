@@ -808,6 +808,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_http_client"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "54392bde4e8ede59dc32d398ef051484a4145026c48dfde2f179bca59c778245"
+dependencies = [
+ "bevy",
+ "crossbeam-channel",
+ "ehttp",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "bevy_input"
 version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1301,6 +1314,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevygap_client_plugin"
+version = "0.1.0"
+source = "git+https://github.com/RJ/bevygap.git#728c73b90568a91ae26f37f296dbb2abc9d85331"
+dependencies = [
+ "base64 0.22.1",
+ "bevy",
+ "bevy_http_client",
+ "lightyear",
+ "serde",
+]
+
+[[package]]
 name = "bevygap_server_plugin"
 version = "0.1.0"
 source = "git+https://github.com/RJ/bevygap.git#728c73b90568a91ae26f37f296dbb2abc9d85331"
@@ -1586,6 +1611,15 @@ dependencies = [
 [[package]]
 name = "client"
 version = "0.1.0"
+dependencies = [
+ "avian2d",
+ "bevy",
+ "bevygap_client_plugin",
+ "leafwing-input-manager",
+ "lightyear",
+ "serde",
+ "shared",
+]
 
 [[package]]
 name = "clipboard-win"
@@ -2048,6 +2082,23 @@ dependencies = [
  "emath",
  "epaint",
  "nohash-hasher",
+]
+
+[[package]]
+name = "ehttp"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "59a81c221a1e4dad06cb9c9deb19aea1193a5eea084e8cd42d869068132bf876"
+dependencies = [
+ "async-channel",
+ "document-features",
+ "js-sys",
+ "serde",
+ "serde_json",
+ "ureq",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]
@@ -4769,6 +4820,7 @@ version = "0.23.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "415d9944693cb90382053259f89fbb077ea730ad7273047ec63b19bc9b160ba8"
 dependencies = [
+ "log",
  "once_cell",
  "ring 0.17.8",
  "rustls-pki-types",
@@ -5796,6 +5848,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
 
 [[package]]
+name = "ureq"
+version = "2.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b74fc6b57825be3373f7054754755f03ac3a8f5d70015ccad699ba2029956f4a"
+dependencies = [
+ "base64 0.22.1",
+ "flate2",
+ "log",
+ "once_cell",
+ "rustls 0.23.14",
+ "rustls-pki-types",
+ "url",
+ "webpki-roots",
+]
+
+[[package]]
 name = "url"
 version = "2.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6121,6 +6189,15 @@ dependencies = [
  "objc2-foundation",
  "url",
  "web-sys",
+]
+
+[[package]]
+name = "webpki-roots"
+version = "0.26.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "841c67bff177718f1d4dfefde8d8f0e78f9b6589319ba88312f567fc5841a958"
+dependencies = [
+ "rustls-pki-types",
 ]
 
 [[package]]
