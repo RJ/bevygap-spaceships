@@ -22,6 +22,7 @@ mod renderer;
 // use shared::replication::components::Controlled;
 
 pub mod prelude {
+    pub const SERVER_PORT: u16 = 6420;
     pub const PHYSICS_SCALE: f32 = 100.0;
     pub const SERVER_REPLICATION_INTERVAL: Duration = Duration::from_millis(20);
     pub const PROTOCOL_ID: u64 = 80085;
@@ -31,10 +32,15 @@ pub mod prelude {
     pub use std::f32::consts::TAU;
     pub const CERTIFICATE_DIGEST: &str = "1c:70:84:ed:c1:ce:2e:2e:59:30:3a:30:d1:8e:11:d9:a9:d7:df:4e:e3:06:68:5a:7f:5b:e0:c2:0d:96:71:b6";
     // Don't include the private key on client builds!
-    #[cfg(feature = "server")]
+    #[cfg(all(feature = "server", feature = "bevygap"))]
     pub const PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 1,
+    ];
+    // For non-bevygap (ie, non-connect token) builds, we use a dummy zeroed key on client and server
+    pub const DUMMY_PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0,
     ];
 
     pub use std::time::Duration;

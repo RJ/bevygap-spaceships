@@ -43,4 +43,4 @@ WORKDIR /app
 ENTRYPOINT ["./server"]
 
 # documents but doesn't automatically expose:
-EXPOSE 5420/udp
+EXPOSE 6420/udp

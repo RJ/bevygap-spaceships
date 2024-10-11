@@ -6,14 +6,16 @@ A learning exercise / starter kit / tutorial.
 
 Find me on the bevy discord as @RJ
 
-## Building the server
+## Building and Running
 
-To run during development you can of course:
+To runserver and client during development, without the connect token stuff from bevygap:
 ```
-cargo run -p server
+cargo run --no-default-features -p server
+# and:
+cargo run --no-default-features -p client
 ```
 
-To build a docker container locally, you can say:
+To build a server docker container locally, you can say:
 ```
 docker build -t bevygap-spaceships-server:latest -f server/Dockerfile .
 ```

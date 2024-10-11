@@ -76,7 +76,7 @@ pub fn build_server_netcode_config() -> server::NetConfig {
     let digest = certificate.certificate_chain().as_slice()[0].hash();
     println!("Generated self-signed certificate with digest: {}", digest);
 
-    let listen_addr = "0.0.0.0:5420".parse().unwrap();
+    let listen_addr = format!("0.0.0.0:{SERVER_PORT}").parse().unwrap();
 
     info!("Listening on {listen_addr:?}");
 
@@ -91,9 +91,13 @@ pub fn build_server_netcode_config() -> server::NetConfig {
         compression: CompressionConfig::None,
     };
 
+    let key = DUMMY_PRIVATE_KEY;
+    #[cfg(all(feature = "server", feature = "bevygap"))]
+    let key = PRIVATE_KEY;
+
     let netcode_config = server::NetcodeConfig::default()
         .with_protocol_id(PROTOCOL_ID)
-        .with_key(PRIVATE_KEY);
+        .with_key(key);
 
     server::NetConfig::Netcode {
         config: netcode_config,

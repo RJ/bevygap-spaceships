@@ -19,14 +19,14 @@ impl Plugin for BLEMClientPlugin {
                 ..default()
             });
             app.add_plugins(BevygapClientPlugin);
+
+            app.add_systems(
+                Update,
+                on_bevygap_state_change.run_if(state_changed::<BevygapClientState>),
+            );
         }
 
         app.add_systems(Startup, connect_client);
-
-        app.add_systems(
-            Update,
-            on_bevygap_state_change.run_if(state_changed::<BevygapClientState>),
-        );
 
         app.add_systems(
             PreUpdate,
@@ -84,6 +84,7 @@ fn connect_client(mut commands: Commands) {
     commands.bevygap_connect_client();
 }
 
+#[cfg(feature = "bevygap")]
 fn on_bevygap_state_change(state: Res<State<BevygapClientState>>) {
     info!("Bevygap client state = {state:?}");
 }

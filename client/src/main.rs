@@ -53,7 +53,8 @@ fn main() {
 
 fn get_client_net_config() -> client::NetConfig {
     let client_addr = "0.0.0.0:0".parse().unwrap();
-    let server_addr = "127.0.0.1:5420".parse().unwrap();
+    // this gets overwritten if using connect tokens
+    let server_addr = format!("127.0.0.1:{SERVER_PORT}").parse().unwrap();
 
     // pick a client id, but it will be overwridden by connect token if supplied
     let client_id = std::time::SystemTime::now()
@@ -66,7 +67,7 @@ fn get_client_net_config() -> client::NetConfig {
     let auth = Authentication::Manual {
         server_addr,
         client_id,
-        private_key: PRIVATE_KEY,
+        private_key: DUMMY_PRIVATE_KEY,
         protocol_id: PROTOCOL_ID,
     };
 
