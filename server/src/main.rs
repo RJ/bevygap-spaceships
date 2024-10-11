@@ -38,7 +38,7 @@ fn main() {
                     // update_subscriber: Some(add_log_layer),
     });
 
-    info!("Starting bevygap-spaceships server");
+    info!("Starting bevygap-spaceships server.");
 
     // configure the network configuration
     let net_config = build_server_netcode_config();
