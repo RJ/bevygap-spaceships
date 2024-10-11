@@ -1,0 +1,11 @@
+[package]
+name = "client"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

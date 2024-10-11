@@ -1,0 +1,54 @@
+[workspace]
+members = [ "client", "server","shared"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+authors = ["RJ <rj@metabrew.com>"]
+publish = false
+
+
+# optimisation notes: https://bevy-cheatbook.github.io/pitfalls/performance.html
+
+# Enable max optimizations for dependencies, but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+# If your own code does CPU-intensive work, you might want to also enable some optimization for it.
+# Enable only a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Here is a configuration for the most aggressive optimizations possible
+# Read this when trying to optimise WASM build: https://bevy-cheatbook.github.io/platforms/wasm/size-opt.html
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1
+incremental = false
+debug = false
+
+[workspace.dependencies]
+avian2d   = { version = "0.1.1", default-features = false, features = ["serialize", "default-collider", "enhanced-determinism", "2d", "f32", "parry-f32"] }
+lightyear = {git = "https://github.com/cBournhonesque/lightyear.git", rev = "a7aed471ee6e35e937cfa6ff3b6baec1d245fc05", features = ["webtransport", "leafwing", "avian2d"]}
+bevy = {version = "0.14", default-features = false}
+#bevy_screen_diagnostics = "0.6"
+#bevy-inspector-egui = { version = "0.25", optional = true }
+serde     = { version = "1.0.188", features = ["derive"] }
+clap      = { version = "4.5.7", features = ["derive"] }
+bevygap_client_plugin = {git = "https://github.com/RJ/bevygap.git"}
+bevygap_server_plugin = {git = "https://github.com/RJ/bevygap.git"}
+leafwing-input-manager = {version = "0.15", features = ["egui"]}
+tracing = "0.1.40"
+tracing-log = "0.2.0"
+tracing-subscriber = { version = "0.3.17", features = [
+  "registry",
+  "env-filter",
+] }
+async-compat = {version = "0.2.3"}
+
+[workspace.lints.clippy]
+type_complexity = "allow"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
