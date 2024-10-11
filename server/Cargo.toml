@@ -5,6 +5,9 @@ version.workspace = true
 authors.workspace = true
 publish.workspace = true
 
+[features]
+gui = ["shared/gui"]
+
 [dependencies]
 bevy.workspace = true
 shared = {path = "../shared", features = ["server"]}

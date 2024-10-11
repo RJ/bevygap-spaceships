@@ -17,7 +17,7 @@ on:
 # Remember to set your DOCKER_PASSWORD secret environment variable on
 # github's settings page for your repo, so you can auth with the edgegap registry.
 env:
-  IMAGE_NAME: "metabrew-kfk5fha5fsct/spaceships-server"
+  IMAGE_NAME: "metabrew-kfk5fha5fsct/bevygap-spaceships-server"
   DOCKER_REGISTRY: "registry.edgegap.com"
   DOCKER_USERNAME: "robot$metabrew-kfk5fha5fsct+client-push"
   # Remember to set ${{ secrets.DOCKER_PASSWORD }} 

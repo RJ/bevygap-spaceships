@@ -30,10 +30,11 @@ pub mod prelude {
     pub const MAX_VELOCITY: f32 = 200.0;
     pub use std::f32::consts::TAU;
     pub const CERTIFICATE_DIGEST: &str = "1c:70:84:ed:c1:ce:2e:2e:59:30:3a:30:d1:8e:11:d9:a9:d7:df:4e:e3:06:68:5a:7f:5b:e0:c2:0d:96:71:b6";
-    // TODO: exclude key on client builds
+    // Don't include the private key on client builds!
+    #[cfg(feature = "server")]
     pub const PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [
-        1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 9,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 1,
     ];
 
     pub use std::time::Duration;
