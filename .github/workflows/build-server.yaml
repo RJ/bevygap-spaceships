@@ -40,7 +40,7 @@ jobs:
         with:
           toolchain: stable
           override: true
-          target: x86_64-unknown-linux-musl
+          target: x86_64-unknown-linux-gnu
       
       - name: Run sccache-cache
         uses: mozilla-actions/sccache-action@v0.0.6
@@ -52,7 +52,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --target x86_64-unknown-linux-musl --release -p server
+          args: --target x86_64-unknown-linux-gnu --release -p server
 
 
 
