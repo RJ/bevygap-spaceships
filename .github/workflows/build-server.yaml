@@ -29,7 +29,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-    
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME}}
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -51,14 +56,6 @@ jobs:
         with:
           command: build
           args: --target x86_64-unknown-linux-gnu --release -p server
-
-# built, now copy artefacts to docker container.
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME}}
 
       - name: build image
         uses: docker/setup-buildx-action@v3
