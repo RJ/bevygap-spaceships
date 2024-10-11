@@ -20,3 +20,4 @@ bevygap_client_plugin = {git = "https://github.com/RJ/bevygap.git", optional = t
 
 [lints]
 workspace = true
+

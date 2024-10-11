@@ -9,6 +9,10 @@ use shared::prelude::*;
 mod server_plugin;
 use server_plugin::*;
 
+pub const PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+];
+
 fn main() {
     let mut app = App::new();
 
@@ -91,8 +95,9 @@ pub fn build_server_netcode_config() -> server::NetConfig {
         compression: CompressionConfig::None,
     };
 
+    #[cfg(not(feature = "bevygap"))]
     let key = DUMMY_PRIVATE_KEY;
-    #[cfg(all(feature = "server", feature = "bevygap"))]
+    #[cfg(feature = "bevygap")]
     let key = PRIVATE_KEY;
 
     let netcode_config = server::NetcodeConfig::default()

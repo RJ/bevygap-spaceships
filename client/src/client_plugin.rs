@@ -26,7 +26,10 @@ impl Plugin for BLEMClientPlugin {
             );
         }
 
-        app.add_systems(Startup, connect_client);
+        app.add_systems(
+            Update,
+            connect_client.run_if(resource_added::<ClientConfig>),
+        );
 
         app.add_systems(
             PreUpdate,
@@ -78,6 +81,7 @@ impl Plugin for BLEMClientPlugin {
 }
 
 fn connect_client(mut commands: Commands) {
+    info!("Connecting...");
     #[cfg(not(feature = "bevygap"))]
     commands.connect_client();
     #[cfg(feature = "bevygap")]
