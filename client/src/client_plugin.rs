@@ -67,6 +67,11 @@ impl Plugin for BLEMClientPlugin {
                 .after(process_collisions),
         );
 
+        app.add_systems(
+            Update,
+            render_server_metadata.run_if(resource_changed::<ServerMetadata>),
+        );
+
         #[cfg(target_family = "wasm")]
         app.add_systems(
             Startup,
@@ -91,6 +96,18 @@ fn connect_client(mut commands: Commands) {
 #[cfg(feature = "bevygap")]
 fn on_bevygap_state_change(state: Res<State<BevygapClientState>>) {
     info!("Bevygap client state = {state:?}");
+}
+
+fn render_server_metadata(mut commands: Commands, metadata: Res<ServerMetadata>) {
+    info!("Got server metadata: {:?}", metadata);
+    commands.spawn(TextBundle::from_section(
+        format!("Server {}\n{}", metadata.fqdn, metadata.location),
+        TextStyle {
+            font_size: 15.0,
+            color: bevy::color::palettes::css::WHITE.into(),
+            ..default()
+        },
+    ));
 }
 
 /// Listen for events to know when the client is connected, and spawn a text entity

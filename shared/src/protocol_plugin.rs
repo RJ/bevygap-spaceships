@@ -232,11 +232,23 @@ pub enum PlayerActions {
     Fire,
 }
 
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Resource)]
+pub struct ServerMetadata {
+    pub location: String,
+    pub fqdn: String,
+}
+
+/// Just used to replicate resources, like ServerMetadata
+#[derive(Channel)]
+pub struct ResourceChannel;
+
 // Protocol
 pub struct ProtocolPlugin;
 
 impl Plugin for ProtocolPlugin {
     fn build(&self, app: &mut App) {
+        app.init_resource::<ServerMetadata>();
+
         app.add_plugins(LeafwingInputPlugin::<PlayerActions>::default());
 
         // Player is synced as Simple, because we periodically update rtt ping stats
@@ -286,5 +298,10 @@ impl Plugin for ProtocolPlugin {
             .add_prediction(ComponentSyncMode::Full)
             .add_interpolation_fn(rotation::lerp)
             .add_correction_fn(rotation::lerp);
+
+        app.add_channel::<ResourceChannel>(ChannelSettings {
+            mode: ChannelMode::OrderedReliable(ReliableSettings::default()),
+            ..default()
+        });
     }
 }

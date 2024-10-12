@@ -54,7 +54,22 @@ impl Plugin for BLEMServerPlugin {
                 .run_if(on_event::<BulletHitEvent>())
                 .after(process_collisions),
         );
+
+        app.add_systems(
+            Update,
+            update_server_metadata.run_if(resource_changed::<ArbitriumContext>),
+        );
     }
+}
+
+fn update_server_metadata(
+    mut metadata: ResMut<ServerMetadata>,
+    context: Res<ArbitriumContext>,
+    mut commands: Commands,
+) {
+    metadata.fqdn = context.fqdn();
+    metadata.location = context.location();
+    commands.replicate_resource::<ServerMetadata, ResourceChannel>(NetworkTarget::All);
 }
 
 /// Since Player is replicated, this allows the clients to display remote players' latency stats.
