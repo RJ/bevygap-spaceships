@@ -30,8 +30,7 @@ debug = false
 
 [workspace.dependencies]
 # lightyear ver must match exactly with bevygap's version!
-lightyear = {git = "https://github.com/cBournhonesque/lightyear.git", rev = "0b7a4852fbb2eb9848d2fbc04dd4eea70d51ea98", 
-             features = ["webtransport", "leafwing", "avian2d"], default-features = false}
+lightyear = {git = "https://github.com/cBournhonesque/lightyear.git", rev = "0b7a4852fbb2eb9848d2fbc04dd4eea70d51ea98", features = ["webtransport", "leafwing", "avian2d"], default-features = false}
 avian2d   = { version = "0.1.1", default-features = false, features = ["serialize", "default-collider", "enhanced-determinism", "2d", "f32", "parry-f32"] }
 bevy = {version = "0.14", default-features = false}
 serde     = { version = "1.0.188", features = ["derive"] }
