@@ -21,3 +21,10 @@ docker build -t bevygap-spaceships-server:latest -f server/Dockerfile .
 ```
 
 Or to trigger the github action to build the server docker image and push to the Edgegap container registry, ready for deployment, you can either push a new git tag in the format `v1.2.3` or manually trigger the workflow from the github actions page of the repository.
+
+
+## NOTES
+
+it's quicker to `cargo build` on the gh runner then copy build artefacts to the container, but there
+isn't a linux with the same glibc version as the one in distroless, and i can't seem to cross compile the
+udev stuff to musl, so need to build in a container too.. makes caching harder?

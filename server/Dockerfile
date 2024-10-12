@@ -1,4 +1,4 @@
-FROM metabrew/rust-chef-sccache:latest as base
+FROM metabrew/rust-chef-sccache:latest AS base
 ENV RUSTC_WRAPPER=sccache SCCACHE_DIR=/sccache
 
 # Cargo Chef Planner
@@ -12,10 +12,6 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 # Cargo Chef Builder
 FROM base AS builder
 WORKDIR /app
-
-RUN --mount=type=cache,target=/var/lib/apt/lists,type=cache,sharing=locked \
-    --mount=type=cache,target=/var/cache/apt,type=cache,sharing=locked \
-    apt-get update && apt-get -y --no-install-recommends install libudev-dev
 
 COPY --from=planner /app/recipe.json recipe.json
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
