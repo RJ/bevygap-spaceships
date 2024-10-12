@@ -29,12 +29,14 @@ incremental = false
 debug = false
 
 [workspace.dependencies]
+# lightyear ver must match exactly with bevygap's version!
+lightyear = {git = "https://github.com/cBournhonesque/lightyear.git", rev = "0b7a4852fbb2eb9848d2fbc04dd4eea70d51ea98", 
+             features = ["webtransport", "leafwing", "avian2d"], default-features = false}
 avian2d   = { version = "0.1.1", default-features = false, features = ["serialize", "default-collider", "enhanced-determinism", "2d", "f32", "parry-f32"] }
-lightyear = {version = "0.17", features = ["webtransport", "leafwing", "avian2d"], default-features = false}
 bevy = {version = "0.14", default-features = false}
 serde     = { version = "1.0.188", features = ["derive"] }
 clap      = { version = "4.5.7", features = ["derive"] }
-leafwing-input-manager = {version = "0.15"}
+leafwing-input-manager = {version = "0.15.1", default-features = false}
 tracing = "0.1.40"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.17", features = [
@@ -51,8 +53,6 @@ type_complexity = "allow"
 unsafe_code = "deny"
 
 
-[patch.crates-io]
-# lightyear ver must match exactly with bevygap's version!
-lightyear = {git = "https://github.com/cBournhonesque/lightyear.git", rev = "a7aed471ee6e35e937cfa6ff3b6baec1d245fc05"}
+# [patch.crates-io]
 # Need this so LWIM's bevy_egui dep is bumped to 0.29 for wasm reasons:
-leafwing-input-manager = {git = "https://github.com/Leafwing-Studios/leafwing-input-manager.git", rev = "d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47"}
+# leafwing-input-manager = {git = "https://github.com/Leafwing-Studios/leafwing-input-manager.git", rev = "d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47"}
