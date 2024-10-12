@@ -10,13 +10,17 @@ use lightyear::server::connection::ConnectionManager;
 use lightyear::server::events::MessageEvent;
 use shared::prelude::*;
 
-pub struct BLEMServerPlugin;
+#[derive(Default)]
+pub struct BLEMServerPlugin {
+    pub cert_digest: String,
+}
 
 impl Plugin for BLEMServerPlugin {
     fn build(&self, app: &mut App) {
         #[cfg(feature = "bevygap")]
         {
             // only start listening once bevygap setup complete
+            warn!("cert_digest: {}", self.cert_digest);
             app.add_plugins(BevygapServerPlugin::default());
             app.observe(start_listening_once_bevygap_ready);
         }
@@ -61,6 +65,8 @@ impl Plugin for BLEMServerPlugin {
         );
     }
 }
+
+// fn report_certificate_digest
 
 fn update_server_metadata(
     mut metadata: ResMut<ServerMetadata>,

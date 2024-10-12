@@ -45,7 +45,8 @@ fn main() {
     info!("⭐️ Git commit @ {}", env!("VERGEN_GIT_COMMIT_TIMESTAMP"));
 
     // configure the network configuration
-    let net_config = build_server_netcode_config();
+    let (net_config, cert_digest) = build_server_netcode_config();
+
     // we can listen on multiple interfaces, or steam+wt+udp etc
     let net_configs = vec![net_config];
 
@@ -62,12 +63,12 @@ fn main() {
     });
 
     app.add_plugins(BLEMSharedPlugin);
-    app.add_plugins(BLEMServerPlugin);
+    app.add_plugins(BLEMServerPlugin { cert_digest });
 
     app.run();
 }
 
-pub fn build_server_netcode_config() -> server::NetConfig {
+pub fn build_server_netcode_config() -> (server::NetConfig, String) {
     let conditioner = None;
 
     // this is async because we need to load the certificate from io
@@ -84,6 +85,7 @@ pub fn build_server_netcode_config() -> server::NetConfig {
         .unwrap();
 
     let digest = certificate.certificate_chain().as_slice()[0].hash();
+    let digest_str = format!("{}", digest);
     println!("Generated self-signed certificate with digest: {}", digest);
 
     let listen_addr = format!("0.0.0.0:{SERVER_PORT}").parse().unwrap();
@@ -114,8 +116,11 @@ pub fn build_server_netcode_config() -> server::NetConfig {
         .with_protocol_id(PROTOCOL_ID)
         .with_key(key);
 
-    server::NetConfig::Netcode {
-        config: netcode_config,
-        io: io_config,
-    }
+    (
+        server::NetConfig::Netcode {
+            config: netcode_config,
+            io: io_config,
+        },
+        digest_str,
+    )
 }
