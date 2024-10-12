@@ -59,6 +59,7 @@ impl Plugin for BLEMServerPlugin {
                 .after(process_collisions),
         );
 
+        #[cfg(feature = "bevygap")]
         app.add_systems(
             Update,
             update_server_metadata.run_if(resource_added::<ArbitriumContext>),
@@ -68,6 +69,7 @@ impl Plugin for BLEMServerPlugin {
 
 // fn report_certificate_digest
 
+#[cfg(feature = "bevygap")]
 fn update_server_metadata(
     mut metadata: ResMut<ServerMetadata>,
     context: Res<ArbitriumContext>,

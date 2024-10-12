@@ -16,6 +16,7 @@ impl Plugin for BLEMClientPlugin {
             // Insert our own BevygapClientConfig here to set matchmaker url:
             app.insert_resource(BevygapClientConfig {
                 wannaplay_url: "http://127.0.0.1:3000/wannaplay".to_string(),
+                certificate_digest: CERTIFICATE_DIGEST.to_string(),
                 ..default()
             });
             app.add_plugins(BevygapClientPlugin);
@@ -69,7 +70,9 @@ impl Plugin for BLEMClientPlugin {
 
         app.add_systems(
             Update,
-            render_server_metadata.run_if(resource_changed::<ServerMetadata>),
+            render_server_metadata
+                .run_if(resource_exists::<ServerMetadata>)
+                .run_if(resource_changed::<ServerMetadata>),
         );
 
         #[cfg(target_family = "wasm")]
@@ -99,15 +102,26 @@ fn on_bevygap_state_change(state: Res<State<BevygapClientState>>) {
 }
 
 fn render_server_metadata(mut commands: Commands, metadata: Res<ServerMetadata>) {
+    if metadata.fqdn.is_empty() {
+        return;
+    }
     info!("Got server metadata: {:?}", metadata);
-    commands.spawn(TextBundle::from_section(
-        format!("Server {}\n{}", metadata.fqdn, metadata.location),
-        TextStyle {
-            font_size: 15.0,
-            color: bevy::color::palettes::css::WHITE.into(),
+    commands.spawn(
+        TextBundle::from_section(
+            format!("Server {} @ {}", metadata.fqdn, metadata.location),
+            TextStyle {
+                font_size: 16.0,
+                color: bevy::color::palettes::css::WHITE.into(),
+                ..default()
+            },
+        )
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(5.0),
+            left: Val::Px(5.0),
             ..default()
-        },
-    ));
+        }),
+    );
 }
 
 /// Listen for events to know when the client is connected, and spawn a text entity
@@ -118,14 +132,22 @@ pub(crate) fn handle_connection(
 ) {
     for event in connection_event.read() {
         let client_id = event.client_id();
-        commands.spawn(TextBundle::from_section(
-            format!("Client {}", client_id),
-            TextStyle {
-                font_size: 30.0,
-                color: Color::WHITE,
+        commands.spawn(
+            TextBundle::from_section(
+                format!("Client {}", client_id),
+                TextStyle {
+                    font_size: 12.0,
+                    color: Color::WHITE,
+                    ..default()
+                },
+            )
+            .with_style(Style {
+                position_type: PositionType::Absolute,
+                top: Val::Px(25.0),
+                left: Val::Px(5.0),
                 ..default()
-            },
-        ));
+            }),
+        );
     }
 }
 
