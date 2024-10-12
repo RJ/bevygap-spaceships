@@ -4,6 +4,7 @@ FROM lukemathwalker/cargo-chef:latest-rust-1 AS chef
 RUN cargo install sccache --version ^0.8.2
 ENV RUSTC_WRAPPER=sccache SCCACHE_DIR=/sccache
 
+# Stage 1: Cargo Chef Planner
 FROM chef AS planner
 WORKDIR /app
 COPY . .
@@ -11,6 +12,7 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=$SCCACHE_DIR,sharing=locked \
     cargo chef prepare --bin server --recipe-path recipe.json
 
+# Stage 2: Cargo Chef Builder
 FROM chef AS builder 
 WORKDIR /app
 # Cached apt-get install deps
@@ -28,9 +30,11 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 COPY . .
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=$SCCACHE_DIR,sharing=locked \
+    --mount=type=cache,target=/usr/local/cargo/git,sharing=locked \
     cargo build --release -p server
+RUN sccache --show-stats
 
-
+# Stage 3: Final Image
 # the :debug version includes a busybox shell
 # FROM gcr.io/distroless/cc-debian12:debug
 FROM gcr.io/distroless/cc-debian12
