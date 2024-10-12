@@ -248,6 +248,11 @@ pub struct ProtocolPlugin;
 impl Plugin for ProtocolPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<ServerMetadata>();
+        app.register_resource::<ServerMetadata>(ChannelDirection::ServerToClient);
+        app.add_channel::<ResourceChannel>(ChannelSettings {
+            mode: ChannelMode::OrderedReliable(ReliableSettings::default()),
+            ..default()
+        });
 
         app.add_plugins(LeafwingInputPlugin::<PlayerActions>::default());
 
@@ -298,10 +303,5 @@ impl Plugin for ProtocolPlugin {
             .add_prediction(ComponentSyncMode::Full)
             .add_interpolation_fn(rotation::lerp)
             .add_correction_fn(rotation::lerp);
-
-        app.add_channel::<ResourceChannel>(ChannelSettings {
-            mode: ChannelMode::OrderedReliable(ReliableSettings::default()),
-            ..default()
-        });
     }
 }

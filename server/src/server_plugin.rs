@@ -75,6 +75,7 @@ fn update_server_metadata(
 ) {
     metadata.fqdn = context.fqdn();
     metadata.location = context.location();
+    info!("Updating server metadata: {metadata:?}");
     commands.replicate_resource::<ServerMetadata, ResourceChannel>(NetworkTarget::All);
 }
 
