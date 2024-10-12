@@ -38,7 +38,7 @@ fn main() {
                     // update_subscriber: Some(add_log_layer),
     });
 
-    info!("bevygap-spaceships server main()!");
+    info!("bevygap-spaceships server main()");
     info!("⭐️ Build time: {}", env!("VERGEN_BUILD_TIMESTAMP"));
     info!("⭐️ Git desc: {}", env!("VERGEN_GIT_DESCRIBE"));
     info!("⭐️ Git sha: {}", env!("VERGEN_GIT_SHA"));
