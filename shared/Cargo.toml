@@ -7,7 +7,23 @@ publish.workspace = true
 
 [features]
 default = []
-gui = ["dep:bevy-inspector-egui", "dep:bevy_screen_diagnostics", "leafwing-input-manager/egui"]
+gui = ["dep:bevy-inspector-egui", "dep:bevy_screen_diagnostics", "leafwing-input-manager/egui", "bevygui"]
+bevygui = [
+    "bevy/bevy_render",
+    "bevy/bevy_core_pipeline",
+    "bevy/bevy_gizmos",
+    "bevy/tonemapping_luts",
+    "bevy/smaa_luts",
+    "bevy/default_font",
+    "bevy/png",
+    "bevy/hdr",
+    "bevy/x11",
+    "bevy/webgl2",
+    "bevy/bevy_winit",
+    "bevy/bevy_sprite",
+    "bevy/bevy_text",
+    "bevy/bevy_ui",
+]
 server = []
 
 
@@ -25,21 +41,7 @@ bevy = {workspace = true, features = [
   "bevy_asset",
   "bevy_state",
   "bevy_color",
-  "bevy_winit",
-  "bevy_core_pipeline",
-  "bevy_render",
-  "bevy_sprite",
-  "bevy_text",
-  "bevy_ui",
   "multi_threaded",
-  "png",
-  "hdr",
-  "x11",
-  "bevy_gizmos",
-  "tonemapping_luts",
-  "smaa_luts",
-  "default_font",
-  "webgl2",
   "sysinfo_plugin",
 ]}
 
