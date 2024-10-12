@@ -1,14 +1,11 @@
-# Use cargo-chef image as the base
-FROM lukemathwalker/cargo-chef:latest-rust-1 AS chef
-
 # Stage 1: Install sccache with caching
-FROM chef AS sccache-installer
+FROM lukemathwalker/cargo-chef:latest-rust-1 AS sccache-installer
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     cargo install sccache --version ^0.8.2
 ENV RUSTC_WRAPPER=sccache SCCACHE_DIR=/sccache
 
 # Stage 2: Cargo Chef Planner
-FROM chef AS planner
+FROM sccache-installer AS planner
 WORKDIR /app
 COPY . .
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
@@ -16,11 +13,8 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
     cargo chef prepare --bin server --recipe-path recipe.json
 
 # Stage 3: Cargo Chef Builder
-FROM chef AS builder
+FROM sccache-installer AS builder
 WORKDIR /app
-# Copy over the sccache installation from the previous layer
-COPY --from=sccache-installer /usr/local/cargo/bin/sccache /usr/local/cargo/bin/sccache
-ENV RUSTC_WRAPPER=sccache SCCACHE_DIR=/sccache
 
 RUN --mount=type=cache,target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,type=cache,sharing=locked \
