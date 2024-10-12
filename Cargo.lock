@@ -486,7 +486,7 @@ dependencies = [
  "bevy_core",
  "bevy_core_pipeline",
  "bevy_ecs",
- "bevy_egui 0.29.0",
+ "bevy_egui",
  "bevy_hierarchy",
  "bevy_log",
  "bevy_math",
@@ -719,9 +719,9 @@ dependencies = [
 
 [[package]]
 name = "bevy_egui"
-version = "0.28.0"
+version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e4a90f30f2849a07d91e393b10c0cc05df09b5773c010ddde57dd8b583be230"
+checksum = "128438a8163e49528207aabf20d3ff0890fd6be0f0054626915995efac87922b"
 dependencies = [
  "arboard",
  "bevy",
@@ -736,25 +736,6 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "webbrowser",
- "winit",
-]
-
-[[package]]
-name = "bevy_egui"
-version = "0.29.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "128438a8163e49528207aabf20d3ff0890fd6be0f0054626915995efac87922b"
-dependencies = [
- "bevy",
- "bytemuck",
- "console_log",
- "crossbeam-channel",
- "egui",
- "js-sys",
- "log",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
  "wgpu-types",
  "winit",
 ]
@@ -3296,11 +3277,10 @@ checksum = "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
 [[package]]
 name = "leafwing-input-manager"
 version = "0.15.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4021fbf18a5ed42d81fe26d1976b11567db22ebb80baa06d05dcbd270d455c7e"
+source = "git+https://github.com/Leafwing-Studios/leafwing-input-manager.git?rev=d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47#d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47"
 dependencies = [
  "bevy",
- "bevy_egui 0.28.0",
+ "bevy_egui",
  "derive_more",
  "dyn-clone",
  "dyn-eq",
@@ -3315,8 +3295,7 @@ dependencies = [
 [[package]]
 name = "leafwing_input_manager_macros"
 version = "0.15.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c4e346fb74dc1ffceed58cdd5c88c6dd3f6548e77ac2beba6a37ff0b1a94b36a"
+source = "git+https://github.com/Leafwing-Studios/leafwing-input-manager.git?rev=d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47#d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",

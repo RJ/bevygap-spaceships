@@ -52,6 +52,7 @@ type_complexity = "allow"
 unsafe_code = "deny"
 
 
-# [patch.crates-io]
+[patch.crates-io]
+
 # Need this so LWIM's bevy_egui dep is bumped to 0.29 for wasm reasons:
-# leafwing-input-manager = {git = "https://github.com/Leafwing-Studios/leafwing-input-manager.git", rev = "d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47"}
+leafwing-input-manager = {git = "https://github.com/Leafwing-Studios/leafwing-input-manager.git", rev = "d6ef9e154bfafb186d6ab2acbd17b6f9e0849f47"}

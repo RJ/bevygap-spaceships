@@ -57,7 +57,7 @@ impl Plugin for BLEMServerPlugin {
 
         app.add_systems(
             Update,
-            update_server_metadata.run_if(resource_changed::<ArbitriumContext>),
+            update_server_metadata.run_if(resource_added::<ArbitriumContext>),
         );
     }
 }

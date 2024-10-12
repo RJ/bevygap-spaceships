@@ -30,6 +30,6 @@ isn't a linux with the same glibc version as the one in distroless, and i can't 
 udev stuff to musl, so need to build in a container too.. makes caching harder?
 
 rustup target install wasm32-unknown-unknown
-  594  cargo build --no-default-features --target wasm32-unknown-unknown -p client
-  595  cargo build --release --no-default-features --target wasm32-unknown-unknown -p client
+
+RUSTFLAGS=--cfg=web_sys_unstable_apis cargo build --release --target wasm32-unknown-unknown -p client
 
