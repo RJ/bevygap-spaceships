@@ -33,21 +33,23 @@ fn main() {
     };
 
     info!("{prediction:?}");
-
+    info!("Z");
     let client_config = ClientConfig {
         shared: shared::shared_config(),
         net: get_client_net_config(),
         prediction,
         ..default()
     };
-
+    info!("X");
     // lightyear client plugins
     app.add_plugins(client::ClientPlugins {
         config: client_config,
     });
-
+    info!("A");
     app.add_plugins(BLEMSharedPlugin);
+    info!("B");
     app.add_plugins(BLEMClientPlugin);
+    info!("C");
     app.run();
 }
 
@@ -57,6 +59,9 @@ fn get_client_net_config() -> client::NetConfig {
     let server_addr = format!("127.0.0.1:{SERVER_PORT}").parse().unwrap();
 
     // pick a client id, but it will be overwridden by connect token if supplied
+    #[cfg(target_arch = "wasm32")]
+    let client_id = 0;
+    #[cfg(not(target_arch = "wasm32"))]
     let client_id = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()

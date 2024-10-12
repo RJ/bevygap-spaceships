@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 // use avian2d::*;
 // use avian2d::{prelude::*, sync::SyncPlugin};
 // use bevy::ecs::query::QueryData;
@@ -23,6 +21,8 @@ mod renderer;
 // use shared::replication::components::Controlled;
 
 pub mod prelude {
+    pub use bevy::utils::Duration;
+
     pub const SERVER_PORT: u16 = 6420;
     pub const PHYSICS_SCALE: f32 = 100.0;
     pub const SERVER_REPLICATION_INTERVAL: Duration = Duration::from_millis(20);
@@ -35,8 +35,6 @@ pub mod prelude {
 
     // For non-bevygap (ie, non-connect token) builds, we use a dummy zeroed key on client and server
     pub const DUMMY_PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [0; PRIVATE_KEY_BYTES];
-
-    pub use std::time::Duration;
 
     pub use super::protocol_plugin::*;
     pub use super::shared_plugin::*;

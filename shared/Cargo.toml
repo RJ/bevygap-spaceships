@@ -35,7 +35,7 @@ leafwing-input-manager.workspace = true
 avian2d.workspace = true
 lightyear.workspace = true
 serde.workspace = true
-tracing-subscriber.workspace = true
+# tracing-subscriber.workspace = true
 bevy = {workspace = true, features = [
   # "file_watcher", ## <-- not supported on WASM
   "bevy_asset",
