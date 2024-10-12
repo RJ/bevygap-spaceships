@@ -15,7 +15,7 @@ shared = {path = "../shared", features = ["gui"]}
 lightyear.workspace = true
 avian2d.workspace = true
 serde.workspace = true
-leafwing-input-manager.workspace = true
+leafwing-input-manager = {workspace = true, features = ["ui", "asset"]}
 bevygap_client_plugin = {git = "https://github.com/RJ/bevygap.git", optional = true}
 
 [lints]

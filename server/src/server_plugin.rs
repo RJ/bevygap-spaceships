@@ -82,20 +82,23 @@ fn start_listening_once_bevygap_ready(_trigger: Trigger<BevygapReady>, mut comma
 }
 
 fn init(mut commands: Commands) {
-    commands.spawn(
-        TextBundle::from_section(
-            "Server",
-            TextStyle {
-                font_size: 30.0,
-                color: Color::WHITE,
+    #[cfg(feature = "gui")]
+    {
+        commands.spawn(
+            TextBundle::from_section(
+                "Server",
+                TextStyle {
+                    font_size: 30.0,
+                    color: Color::WHITE,
+                    ..default()
+                },
+            )
+            .with_style(Style {
+                align_self: AlignSelf::End,
                 ..default()
-            },
-        )
-        .with_style(Style {
-            align_self: AlignSelf::End,
-            ..default()
-        }),
-    );
+            }),
+        );
+    }
     // the balls are server-authoritative
     const NUM_BALLS: usize = 6;
     for i in 0..NUM_BALLS {

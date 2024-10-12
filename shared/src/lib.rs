@@ -11,10 +11,11 @@ use std::time::Duration;
 use lightyear::prelude::*;
 
 // use shared::config::{Mode, SharedConfig};
-mod entity_label;
 mod protocol_plugin;
 mod shared_plugin;
 
+#[cfg(feature = "gui")]
+mod entity_label;
 #[cfg(feature = "gui")]
 mod renderer;
 
@@ -37,11 +38,13 @@ pub mod prelude {
 
     pub use std::time::Duration;
 
-    pub use super::entity_label::*;
     pub use super::protocol_plugin::*;
+    pub use super::shared_plugin::*;
+
+    #[cfg(feature = "gui")]
+    pub use super::entity_label::*;
     #[cfg(feature = "gui")]
     pub use super::renderer::*;
-    pub use super::shared_plugin::*;
 
     pub use avian2d::prelude::*;
     pub use leafwing_input_manager::prelude::ActionState;

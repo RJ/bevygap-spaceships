@@ -35,7 +35,7 @@ avian2d   = { version = "0.1.1", default-features = false, features = ["serializ
 bevy = {version = "0.14", default-features = false}
 serde     = { version = "1.0.188", features = ["derive"] }
 clap      = { version = "4.5.7", features = ["derive"] }
-leafwing-input-manager = {version = "0.15.1", default-features = false}
+leafwing-input-manager = {version = "0.15.1", default-features = false, features = ["mouse", "keyboard", "gamepad"]}
 tracing = "0.1.40"
 tracing-log = "0.2.0"
 tracing-subscriber = { version = "0.3.17", features = [

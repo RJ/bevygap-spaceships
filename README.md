@@ -28,3 +28,8 @@ Or to trigger the github action to build the server docker image and push to the
 it's quicker to `cargo build` on the gh runner then copy build artefacts to the container, but there
 isn't a linux with the same glibc version as the one in distroless, and i can't seem to cross compile the
 udev stuff to musl, so need to build in a container too.. makes caching harder?
+
+rustup target install wasm32-unknown-unknown
+  594  cargo build --no-default-features --target wasm32-unknown-unknown -p client
+  595  cargo build --release --no-default-features --target wasm32-unknown-unknown -p client
+
