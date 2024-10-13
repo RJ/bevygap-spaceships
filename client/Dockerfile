@@ -1,7 +1,7 @@
-FROM metabrew/rust-chef-sccache:latest AS base
-RUN rustup target install wasm32-unknown-unknown
-RUN cargo install wasm-bindgen-cli
-ENV RUSTC_WRAPPER=sccache SCCACHE_DIR=/sccache
+FROM metabrew/rust-chef-sccache:0.0.4 AS base
+# RUN rustup target install wasm32-unknown-unknown
+# RUN cargo install wasm-bindgen-cli
+# RUN apt-get install -y --no-install-recommends clang
 ENV RUSTFLAGS=--cfg=web_sys_unstable_apis
 ENV CARGO_BUILD_TARGET=wasm32-unknown-unknown
 
@@ -12,7 +12,6 @@ FROM base AS planner
 WORKDIR /app
 COPY . .
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
-    --mount=type=cache,target=$SCCACHE_DIR,sharing=locked \
     cargo chef prepare --bin client --recipe-path recipe.json
 
 # Cargo Chef Builder
@@ -21,14 +20,12 @@ WORKDIR /app
 
 COPY --from=planner /app/recipe.json recipe.json
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
-    --mount=type=cache,target=$SCCACHE_DIR,sharing=locked \
     --mount=type=cache,target=/usr/local/cargo/git,sharing=locked \
     cargo chef cook --release --bin client --recipe-path recipe.json
 
 # Actually build the application
 COPY . .
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
-    --mount=type=cache,target=$SCCACHE_DIR,sharing=locked \
     --mount=type=cache,target=/usr/local/cargo/git,sharing=locked \
     cargo build --release -p client
 
