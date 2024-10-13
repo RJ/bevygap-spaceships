@@ -31,7 +31,7 @@ pub mod prelude {
     pub const FIXED_TIMESTEP_HZ: f64 = 64.0;
     pub const MAX_VELOCITY: f32 = 200.0;
     pub use std::f32::consts::TAU;
-    pub const CERTIFICATE_DIGEST: &str = "6e:f2:d6:57:f8:f7:c9:ab:88:ae:59:6b:e8:97:cc:1e:a7:a4:ce:71:17:e1:39:79:4d:c6:2b:79:86:9a:c5:fc";
+    pub const CERTIFICATE_DIGEST: &str = "2d:7f:e9:17:92:2e:bf:1b:ff:d5:28:95:8b:c0:93:cb:95:e7:08:80:28:7f:0d:66:18:17:2a:d2:c8:6c:16:ba";
 
     // For non-bevygap (ie, non-connect token) builds, we use a dummy zeroed key on client and server
     pub const DUMMY_PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [0; PRIVATE_KEY_BYTES];
