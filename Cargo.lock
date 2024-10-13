@@ -1322,7 +1322,7 @@ dependencies = [
 [[package]]
 name = "bevygap_client_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?rev=a60ab1b7fec9e01d5639cafee555e43e30037e3c#a60ab1b7fec9e01d5639cafee555e43e30037e3c"
+source = "git+https://github.com/RJ/bevygap.git?rev=114963a1d2ac8a8b5b7716edb4dc23d078b199d6#114963a1d2ac8a8b5b7716edb4dc23d078b199d6"
 dependencies = [
  "base64 0.22.1",
  "bevy",
@@ -1334,7 +1334,7 @@ dependencies = [
 [[package]]
 name = "bevygap_server_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#c8ac62651d57fa47c009adcb8fb0b6c0e1db28d6"
+source = "git+https://github.com/RJ/bevygap.git#114963a1d2ac8a8b5b7716edb4dc23d078b199d6"
 dependencies = [
  "async-nats",
  "bevy",
@@ -1351,7 +1351,7 @@ dependencies = [
 [[package]]
 name = "bevygap_shared"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#c8ac62651d57fa47c009adcb8fb0b6c0e1db28d6"
+source = "git+https://github.com/RJ/bevygap.git#114963a1d2ac8a8b5b7716edb4dc23d078b199d6"
 dependencies = [
  "async-nats",
  "bevy",
@@ -1465,9 +1465,9 @@ checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
 
 [[package]]
 name = "bytemuck"
-version = "1.18.0"
+version = "1.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94bbb0ad554ad961ddc5da507a12a29b14e4ae5bda06b19f575a3e6079d2e2ae"
+checksum = "8334215b81e418a0a7bdb8ef0849474f40bb10c8b71f1c4ed315cff49f32494d"
 dependencies = [
  "bytemuck_derive",
 ]
@@ -1657,6 +1657,7 @@ dependencies = [
  "lightyear",
  "serde",
  "shared",
+ "web-sys",
 ]
 
 [[package]]

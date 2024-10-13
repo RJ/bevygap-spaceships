@@ -71,18 +71,57 @@ fn main() {
 pub fn build_server_netcode_config() -> (server::NetConfig, String) {
     let conditioner = None;
 
+    // newer version of wtransport has this API:
+    // let identity = server::Identity::self_signed_builder()
+    //     .subject_alt_names(&["localhost", "127.0.0.1", "::1"])
+    //     .from_now_utc()
+    //     .validity_days(14)
+    //     .build()
+    //     .unwrap();
+
+    /*
+    Generates a self-signed certificate and private key for new identity.
+
+    The certificate conforms to the W3C WebTransport specifications as follows:
+
+    The certificate MUST be an X.509v3 certificate as defined in RFC5280.
+    The key used in the Subject Public Key field MUST be one of the allowed public key algorithms. This function uses the ECDSA P-256 algorithm.
+    The current time MUST be within the validity period of the certificate as defined in Section 4.1.2.5 of RFC5280.
+    The total length of the validity period MUST NOT exceed two weeks.
+     */
+    let mut sans = vec![
+        "localhost".to_string(),
+        "127.0.0.1".to_string(),
+        "::1".to_string(),
+    ];
+    // Are we running on edgegap?
+    if let Ok(public_ip) = std::env::var("ARBITRIUM_PUBLIC_IP") {
+        info!("sans++ ARBITRIUM_PUBLIC_IP: {}", public_ip);
+        sans.push(public_ip);
+        sans.push("*.pr.edgegap.net".to_string());
+    }
+    // generic env to add domains and ips to SAN list:
+    // SELF_SIGNED_SANS="example.org,example.com,127.1.1.1"
+    if let Ok(san) = std::env::var("SELF_SIGNED_SANS") {
+        info!("sans++ SELF_SIGNED_SANS: {}", san);
+        sans.extend(san.split(',').map(|s| s.to_string()));
+    }
+    info!("Creating self-signed certificate with SANs: {:?}", sans);
+    let certificate = server::Identity::self_signed(sans).unwrap();
+
+    // We can load certs from files if needed:
     // this is async because we need to load the certificate from io
     // we need async_compat because wtransport expects a tokio reactor
-    let certificate = IoTaskPool::get()
-        .scope(|s| {
-            s.spawn(Compat::new(async {
-                server::Identity::load_pemfiles("./certificates/cert.pem", "./certificates/key.pem")
-                    .await
-                    .unwrap()
-            }));
-        })
-        .pop()
-        .unwrap();
+    // let certificate = IoTaskPool::get()
+    //     .scope(|s| {
+    //         s.spawn(Compat::new(async {
+    //             server::Identity::load_pemfiles("./certificates/cert.pem", "./certificates/key.pem")
+    //                 .await
+    //                 .unwrap()
+    //         }));
+    //     })
+    //     .pop()
+    //     .unwrap();
 
     let digest = certificate.certificate_chain().as_slice()[0].hash();
     let digest_str = format!("{}", digest);

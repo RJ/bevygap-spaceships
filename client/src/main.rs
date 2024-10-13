@@ -57,12 +57,13 @@ fn get_client_net_config() -> client::NetConfig {
 
     // pick a client id, but it will be overwridden by connect token if supplied
     #[cfg(target_arch = "wasm32")]
-    let client_id = 0;
+    let client_id: u64 = (web_sys::js_sys::Math::random() * u64::MAX as f64) as u64;
     #[cfg(not(target_arch = "wasm32"))]
     let client_id = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()
         .as_millis() as u64;
+    info!("ClientID initially set to {client_id}");
 
     let conditioner = None;
 

@@ -43,7 +43,7 @@ tracing-subscriber = { version = "0.3.17", features = [
   "env-filter",
 ] }
 async-compat = {version = "0.2.3"}
-bevygap_client_plugin = {git = "https://github.com/RJ/bevygap.git", rev = "a60ab1b7fec9e01d5639cafee555e43e30037e3c"}
+bevygap_client_plugin = {git = "https://github.com/RJ/bevygap.git", rev = "114963a1d2ac8a8b5b7716edb4dc23d078b199d6"}
 #bevygap_client_plugin = {path = "../bevygap/bevygap_client_plugin/"}
 
 [workspace.lints.clippy]

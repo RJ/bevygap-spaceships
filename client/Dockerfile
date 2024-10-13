@@ -1,7 +1,4 @@
 FROM metabrew/rust-chef-sccache:0.0.4 AS base
-# RUN rustup target install wasm32-unknown-unknown
-# RUN cargo install wasm-bindgen-cli
-# RUN apt-get install -y --no-install-recommends clang
 ENV RUSTFLAGS=--cfg=web_sys_unstable_apis
 ENV CARGO_BUILD_TARGET=wasm32-unknown-unknown
 

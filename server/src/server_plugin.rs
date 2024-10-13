@@ -20,8 +20,10 @@ impl Plugin for BLEMServerPlugin {
         #[cfg(feature = "bevygap")]
         {
             // only start listening once bevygap setup complete
-            warn!("cert_digest: {}", self.cert_digest);
-            app.add_plugins(BevygapServerPlugin::default());
+            warn!("cert_digest: {}", self.cert_digest.clone());
+            app.add_plugins(BevygapServerPlugin::self_signed_digest(
+                self.cert_digest.clone(),
+            ));
             app.observe(start_listening_once_bevygap_ready);
         }
         #[cfg(not(feature = "bevygap"))]
