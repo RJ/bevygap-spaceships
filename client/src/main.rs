@@ -33,23 +33,20 @@ fn main() {
     };
 
     info!("{prediction:?}");
-    info!("Z");
+
     let client_config = ClientConfig {
         shared: shared::shared_config(),
         net: get_client_net_config(),
         prediction,
         ..default()
     };
-    info!("X");
     // lightyear client plugins
     app.add_plugins(client::ClientPlugins {
         config: client_config,
     });
-    info!("A");
     app.add_plugins(BLEMSharedPlugin);
-    info!("B");
     app.add_plugins(BLEMClientPlugin);
-    info!("C");
+
     app.run();
 }
 
