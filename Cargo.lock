@@ -1322,7 +1322,7 @@ dependencies = [
 [[package]]
 name = "bevygap_client_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?rev=52aecd67cf27289a9266bcd5fd3dd67a5857f30e#52aecd67cf27289a9266bcd5fd3dd67a5857f30e"
+source = "git+https://github.com/RJ/bevygap.git?rev=728e321641dfb194a2ae05862b7eda884e6c3111#728e321641dfb194a2ae05862b7eda884e6c3111"
 dependencies = [
  "base64 0.22.1",
  "bevy",
