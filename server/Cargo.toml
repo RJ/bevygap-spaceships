@@ -16,7 +16,6 @@ shared = {path = "../shared", features = ["server"]}
 lightyear.workspace = true
 avian2d.workspace = true
 serde.workspace = true
-async-compat.workspace = true
 leafwing-input-manager.workspace = true
 bevygap_server_plugin = {git = "https://github.com/RJ/bevygap.git", optional = true}
 

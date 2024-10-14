@@ -1322,7 +1322,7 @@ dependencies = [
 [[package]]
 name = "bevygap_client_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?rev=114963a1d2ac8a8b5b7716edb4dc23d078b199d6#114963a1d2ac8a8b5b7716edb4dc23d078b199d6"
+source = "git+https://github.com/RJ/bevygap.git?rev=52aecd67cf27289a9266bcd5fd3dd67a5857f30e#52aecd67cf27289a9266bcd5fd3dd67a5857f30e"
 dependencies = [
  "base64 0.22.1",
  "bevy",
@@ -5187,7 +5187,6 @@ dependencies = [
 name = "server"
 version = "0.1.0"
 dependencies = [
- "async-compat",
  "avian2d",
  "bevy",
  "bevygap_server_plugin",

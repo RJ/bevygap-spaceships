@@ -29,7 +29,6 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 # Final stage: Create minimal image
 FROM gcr.io/distroless/cc-debian12
 COPY --from=builder /app/assets/ /app/assets/
-COPY --from=builder /app/certificates/ /app/certificates/
 COPY --from=builder /app/target/release/server /app/
 WORKDIR /app
 ENTRYPOINT ["./server"]
