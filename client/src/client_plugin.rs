@@ -13,12 +13,15 @@ impl Plugin for BLEMClientPlugin {
     fn build(&self, app: &mut App) {
         #[cfg(feature = "bevygap")]
         {
-            // Insert our own BevygapClientConfig here to set matchmaker url:
+            let wannaplay_url = get_matchmaker_url();
+            info!("Matchmaker url: {wannaplay_url}");
             app.insert_resource(BevygapClientConfig {
-                wannaplay_url: "http://127.0.0.1:3000/wannaplay".to_string(),
+                wannaplay_url,
+                // this is overwritten by the value in the  matchmaker response:
                 certificate_digest: CERTIFICATE_DIGEST.to_string(),
                 ..default()
             });
+
             app.add_plugins(BevygapClientPlugin);
 
             app.add_systems(
@@ -85,6 +88,52 @@ impl Plugin for BLEMClientPlugin {
                 settings.wake_delay = keepalive;
             },
         );
+    }
+}
+
+/// The matchmaker url responds with a ConnectToken and gameserver ip to connect to.
+///
+/// Various ways to set it, depending on wasm / native:
+fn get_matchmaker_url() -> String {
+    // use compile-time env variable, this overwrites everything if set.
+    match option_env!("COMPILE_TIME_MATCHMAKER_URL") {
+        Some(url) => {
+            info!("Using matchmaker url from COMPILE_TIME_MATCHMAKER_URL env");
+            url.to_string()
+        }
+        None => {
+            // in wasm, check for a global window.MATCHMAKER_URL, otherwise fall back
+            // to the window.location with /matchmaker/wannaplay on the end.
+            // Insert our own BevygapClientConfig here to set matchmaker url:
+            #[cfg(target_family = "wasm")]
+            {
+                let window = web_sys::window().expect("expected window");
+
+                if let Some(obj) = window.get("MATCHMAKER_URL") {
+                    info!("Using matchmaker url from window.MATCHMAKER_URL");
+                    obj.as_string().expect("MATCHMAKER_URL should be a string")
+                } else {
+                    info!("Using matchmaker url from window.location");
+                    let location = window.location();
+                    format!(
+                        "{}//{}/matchmaker/wannaplay",
+                        location.protocol().expect("expected protocol"),
+                        location.host().expect("expected host")
+                    )
+                    .to_string()
+                }
+            }
+            #[cfg(not(target_family = "wasm"))]
+            {
+                if let Ok(url) = std::env::var("MATCHMAKER_URL") {
+                    info!("Using matchmaker url from MATCHMAKER_URL env");
+                    url
+                } else {
+                    info!("Using default localhost dev url for matchmaker");
+                    "http://127.0.0.1:3000/wannaplay".to_string()
+                }
+            }
+        }
     }
 }
 

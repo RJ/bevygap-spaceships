@@ -19,7 +19,7 @@ leafwing-input-manager = {workspace = true, features = ["ui", "asset"]}
 bevygap_client_plugin = {workspace = true, optional = true}
 
 [target."cfg(target_family = \"wasm\")".dependencies]
-web-sys = { version = "0.3" }
+web-sys = { version = "0.3", features = ["Window", "Location"] }
 
 [lints]
 workspace = true
