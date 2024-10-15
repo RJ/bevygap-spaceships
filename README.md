@@ -24,6 +24,9 @@ docker build -t bevygap-spaceships-server:latest -f server/Dockerfile .
 
 I'm mostly using github actions to bake my containers. See workflows for details.
 
+## TODO
+
+docs, better error handling, etc. early days.
 
 ## NOTES
 

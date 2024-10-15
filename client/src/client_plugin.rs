@@ -141,12 +141,22 @@ fn get_matchmaker_url() -> String {
 pub(crate) fn connect_client_observer(
     _trigger: Trigger<crate::screens::ConnectToServerRequest>,
     mut commands: Commands,
+    #[cfg(feature = "bevygap")] state: Res<State<BevygapClientState>>,
 ) {
     info!("Connecting...");
     #[cfg(not(feature = "bevygap"))]
     commands.connect_client();
     #[cfg(feature = "bevygap")]
-    commands.bevygap_connect_client();
+    {
+        match state.get() {
+            BevygapClientState::Dormant | BevygapClientState::Error => {
+                commands.bevygap_connect_client();
+            }
+            _ => {
+                warn!("Already trying to connect");
+            }
+        }
+    }
 }
 
 #[cfg(feature = "bevygap")]
