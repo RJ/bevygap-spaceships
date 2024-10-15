@@ -3,8 +3,8 @@ use bevy::prelude::*;
 use client::{Authentication, ClientConfig, PredictionConfig};
 
 use shared::prelude::*;
-
 mod client_plugin;
+pub(crate) mod screens;
 use client_plugin::*;
 
 fn main() {

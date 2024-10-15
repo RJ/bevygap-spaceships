@@ -1,3 +1,4 @@
+use crate::screens;
 use bevy::prelude::*;
 #[cfg(feature = "bevygap")]
 use bevygap_client_plugin::prelude::*;
@@ -11,6 +12,9 @@ pub struct BLEMClientPlugin;
 
 impl Plugin for BLEMClientPlugin {
     fn build(&self, app: &mut App) {
+        // will default to the Connect screen with a button to initiate
+        app.add_plugins(screens::plugin);
+
         #[cfg(feature = "bevygap")]
         {
             let wannaplay_url = get_matchmaker_url();
@@ -30,10 +34,7 @@ impl Plugin for BLEMClientPlugin {
             );
         }
 
-        app.add_systems(
-            Update,
-            connect_client.run_if(resource_added::<ClientConfig>),
-        );
+        app.observe(connect_client_observer);
 
         app.add_systems(
             PreUpdate,
@@ -137,7 +138,10 @@ fn get_matchmaker_url() -> String {
     }
 }
 
-fn connect_client(mut commands: Commands) {
+pub(crate) fn connect_client_observer(
+    _trigger: Trigger<crate::screens::ConnectToServerRequest>,
+    mut commands: Commands,
+) {
     info!("Connecting...");
     #[cfg(not(feature = "bevygap"))]
     commands.connect_client();
