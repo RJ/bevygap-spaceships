@@ -149,7 +149,7 @@ pub(crate) fn connect_client_observer(
     #[cfg(feature = "bevygap")]
     {
         match state.get() {
-            BevygapClientState::Dormant | BevygapClientState::Error => {
+            BevygapClientState::Dormant | BevygapClientState::Error(_, _) => {
                 commands.bevygap_connect_client();
             }
             _ => {
