@@ -96,6 +96,7 @@ impl Plugin for BLEMClientPlugin {
 ///
 /// Various ways to set it, depending on wasm / native:
 fn get_matchmaker_url() -> String {
+    const MATCHMAKER_PATH: &str = "/matchmaker/request/g/v";
     // use compile-time env variable, this overwrites everything if set.
     match option_env!("COMPILE_TIME_MATCHMAKER_URL") {
         Some(url) => {
@@ -117,7 +118,7 @@ fn get_matchmaker_url() -> String {
                     info!("Using matchmaker url from window.location");
                     let location = window.location();
                     format!(
-                        "{}//{}/matchmaker/wannaplay",
+                        "{}//{}{MATCHMAKER_PATH}",
                         location.protocol().expect("expected protocol"),
                         location.host().expect("expected host")
                     )
@@ -131,7 +132,7 @@ fn get_matchmaker_url() -> String {
                     url
                 } else {
                     info!("Using default dev url for matchmaker");
-                    "https://game.metabrew.com/matchmaker/request/g/v".to_string()
+                    format!("https://game.metabrew.com{MATCHMAKER_PATH}")
                 }
             }
         }
