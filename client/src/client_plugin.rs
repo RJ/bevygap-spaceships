@@ -130,8 +130,8 @@ fn get_matchmaker_url() -> String {
                     info!("Using matchmaker url from MATCHMAKER_URL env");
                     url
                 } else {
-                    info!("Using default localhost dev url for matchmaker");
-                    "http://127.0.0.1:3000/wannaplay".to_string()
+                    info!("Using default dev url for matchmaker");
+                    "https://game.metabrew.com/matchmaker/request/g/v".to_string()
                 }
             }
         }
