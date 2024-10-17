@@ -134,10 +134,10 @@ fn on_bevygap_state_change(
     let msg = match state.get() {
         BevygapClientState::Dormant => "Chrome only atm!".to_string(),
         BevygapClientState::Request => "Making request...".to_string(),
-        BevygapClientState::AwaitingResponse => "Waiting for matchmaker...".to_string(),
+        BevygapClientState::AwaitingResponse(msg) => msg.clone(),
         BevygapClientState::ReadyToConnect => "Ready!".to_string(),
         BevygapClientState::Finished => "Finished connection setup.".to_string(),
-        BevygapClientState::Error(code, msg) => format!("{code}: {msg}"),
+        BevygapClientState::Error(code, msg) => format!("ERR {code}: {msg}"),
     };
     commands.trigger(ConnectStatusText(msg));
 }
