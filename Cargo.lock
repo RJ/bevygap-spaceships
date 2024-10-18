@@ -816,7 +816,7 @@ dependencies = [
 [[package]]
 name = "bevy_http_client"
 version = "0.6.0"
-source = "git+https://github.com/RJ/bevy_http_client.git?branch=streaming#f1d7447b72d8e7011ea5fd583be9dbba2bc0adc2"
+source = "git+https://github.com/RJ/bevy_http_client.git?branch=streaming#da3d6c71f787b2347d788148a883149618bc07f6"
 dependencies = [
  "bevy_app",
  "bevy_derive",
@@ -1326,7 +1326,7 @@ dependencies = [
 [[package]]
 name = "bevygap_client_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?rev=2de22dc19e6b48f8dd5368101864ebd60e2da7ba#2de22dc19e6b48f8dd5368101864ebd60e2da7ba"
+source = "git+https://github.com/RJ/bevygap.git#1ebce1218ca603fd46561ada31cbd48359f86397"
 dependencies = [
  "base64 0.22.1",
  "bevy",
@@ -1338,7 +1338,7 @@ dependencies = [
 [[package]]
 name = "bevygap_server_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#e54df61e1003d554d5d28993b03aed8e01fa8e4b"
+source = "git+https://github.com/RJ/bevygap.git#1ebce1218ca603fd46561ada31cbd48359f86397"
 dependencies = [
  "async-nats",
  "bevy",
@@ -1355,7 +1355,7 @@ dependencies = [
 [[package]]
 name = "bevygap_shared"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#e54df61e1003d554d5d28993b03aed8e01fa8e4b"
+source = "git+https://github.com/RJ/bevygap.git#1ebce1218ca603fd46561ada31cbd48359f86397"
 dependencies = [
  "async-nats",
  "bevy",

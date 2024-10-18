@@ -131,8 +131,8 @@ fn get_matchmaker_url() -> String {
                     info!("Using matchmaker url from MATCHMAKER_URL env");
                     url
                 } else {
-                    info!("Using default dev url for matchmaker");
-                    format!("https://game.metabrew.com{MATCHMAKER_PATH}")
+                    info!("Using default localhost dev url for matchmaker");
+                    format!("http://127.0.0.1:3000{MATCHMAKER_PATH}")
                 }
             }
         }
