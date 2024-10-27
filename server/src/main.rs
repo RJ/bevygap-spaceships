@@ -70,6 +70,7 @@ fn main() {
     app.run();
 }
 
+// TODO move the self-signed cert generation to LY
 pub fn build_server_netcode_config() -> (server::NetConfig, String) {
     let conditioner = None;
 
@@ -161,6 +162,7 @@ pub fn build_server_netcode_config() -> (server::NetConfig, String) {
         .with_protocol_id(PROTOCOL_ID)
         .with_key(key);
 
+    // netcode_config.connection_request_handler =
     (
         server::NetConfig::Netcode {
             config: netcode_config,
