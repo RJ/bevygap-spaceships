@@ -34,10 +34,18 @@ it's quicker to `cargo build` on the gh runner then copy build artefacts to the 
 isn't a linux with the same glibc version as the one in distroless, and i can't seem to cross compile the
 udev stuff to musl, so need to build in a container too.. makes caching harder?
 
+```
 rustup target install wasm32-unknown-unknown
-
 RUSTFLAGS=--cfg=web_sys_unstable_apis cargo build --release --target wasm32-unknown-unknown -p client
+```
+
+## On MacOS: Use LLVM clang not default cc
+This fixes the `ring` / cc errors.
+```
+TARGET_CC=/opt/homebrew/opt/llvm/bin/clang RUSTFLAGS=--cfg=web_sys_unstable_apis cargo build --release --target wasm32-unknown-unknown -p client
+```
+
+```
 wasm-bindgen --no-typescript --target web     --out-dir ./out     --out-name "bevygap-spaceships"     ./target/wasm32-unknown-unknown/release/client.wasm
-
-
+```
 if compiling via docker on mac dies with SIGKILL, probaly need to increase RAM for dockers VM.

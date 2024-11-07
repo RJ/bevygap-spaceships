@@ -21,6 +21,9 @@ bevygap_client_plugin = {workspace = true, optional = true}
 [target."cfg(target_family = \"wasm\")".dependencies]
 web-sys = { version = "0.3", features = ["Window", "Location"] }
 
+#[target.'cfg(all(target_arch = "wasm32", target_os = "unknown"))'.dependencies]
+#ring = { version = "0.17", features = ["wasm32_unknown_unknown_js"] }
+
 [lints]
 workspace = true
 
