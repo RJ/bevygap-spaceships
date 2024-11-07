@@ -814,23 +814,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy_http_client"
-version = "0.6.0"
-source = "git+https://github.com/RJ/bevy_http_client.git?branch=streaming#da3d6c71f787b2347d788148a883149618bc07f6"
-dependencies = [
- "bevy_app",
- "bevy_derive",
- "bevy_ecs",
- "bevy_hierarchy",
- "bevy_log",
- "bevy_tasks",
- "crossbeam-channel",
- "ehttp",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "bevy_input"
 version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -933,6 +916,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "66cf695a264b043f2c4edb92dd5c742e6892180d2b30dac870012d153f8557ea"
 dependencies = [
  "glam",
+]
+
+[[package]]
+name = "bevy_nfws"
+version = "0.1.0"
+source = "git+https://github.com/RJ/bevygap.git?rev=5eaa44c#5eaa44c74196be9f0a24d8b8ba490ab66fc76040"
+dependencies = [
+ "bevy",
+ "bevy-tokio-tasks",
+ "futures-util",
+ "tokio",
+ "tokio-tungstenite-wasm",
 ]
 
 [[package]]
@@ -1326,13 +1321,15 @@ dependencies = [
 [[package]]
 name = "bevygap_client_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#1ebce1218ca603fd46561ada31cbd48359f86397"
+source = "git+https://github.com/RJ/bevygap.git?rev=5eaa44c#5eaa44c74196be9f0a24d8b8ba490ab66fc76040"
 dependencies = [
  "base64 0.22.1",
  "bevy",
- "bevy_http_client",
+ "bevy_nfws",
+ "bevygap_shared 0.1.0 (git+https://github.com/RJ/bevygap.git?rev=5eaa44c)",
  "lightyear",
- "serde",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]
@@ -1343,13 +1340,23 @@ dependencies = [
  "async-nats",
  "bevy",
  "bevy-tokio-tasks",
- "bevygap_shared",
+ "bevygap_shared 0.1.0 (git+https://github.com/RJ/bevygap.git)",
  "lightyear",
  "reqwest",
  "serde",
  "serde_json",
  "tokio",
  "url",
+]
+
+[[package]]
+name = "bevygap_shared"
+version = "0.1.0"
+source = "git+https://github.com/RJ/bevygap.git?rev=5eaa44c#5eaa44c74196be9f0a24d8b8ba490ab66fc76040"
+dependencies = [
+ "log",
+ "regex",
+ "serde",
 ]
 
 [[package]]
@@ -2210,24 +2217,6 @@ dependencies = [
  "emath",
  "epaint",
  "nohash-hasher",
-]
-
-[[package]]
-name = "ehttp"
-version = "0.5.0"
-source = "git+https://github.com/RJ/ehttp.git?branch=chunkier#254bf349a9ad0ceaceda7673d06557943bb175b6"
-dependencies = [
- "async-channel",
- "document-features",
- "futures-util",
- "js-sys",
- "serde",
- "serde_json",
- "ureq",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "wasm-streams",
- "web-sys",
 ]
 
 [[package]]
@@ -4695,9 +4684,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.11.0"
+version = "1.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38200e5ee88914975b69f657f0801b6f6dccafd44fd9326302a4aaeecfacb1d8"
+checksum = "b544ef1b4eac5dc2db33ea63606ae9ffcfac26c1416a2806ae0bf5f56b201191"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -4902,7 +4891,6 @@ version = "0.23.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5fbb44d7acc4e873d613422379f69f237a1b141928c02f6bc6ccfddddc2d7993"
 dependencies = [
- "log",
  "once_cell",
  "ring 0.17.8",
  "rustls-pki-types",
@@ -5201,6 +5189,17 @@ dependencies = [
  "shared",
  "vergen",
  "vergen-git2",
+]
+
+[[package]]
+name = "sha1"
+version = "0.10.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3bf829a2d51ab4a5ddf1352d8470c140cadc8301b2ae1789db023f01cedd6ba"
+dependencies = [
+ "cfg-if",
+ "cpufeatures",
+ "digest",
 ]
 
 [[package]]
@@ -5737,6 +5736,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "tokio-tungstenite"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c83b561d025642014097b66e6c1bb422783339e0909e4429cde4749d1990bc38"
+dependencies = [
+ "futures-util",
+ "log",
+ "tokio",
+ "tungstenite",
+]
+
+[[package]]
+name = "tokio-tungstenite-wasm"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8e57a65894797a018b28345fa298a00c450a574aa9671e50b18218a6292a55ac"
+dependencies = [
+ "futures-channel",
+ "futures-util",
+ "http",
+ "httparse",
+ "js-sys",
+ "thiserror",
+ "tokio",
+ "tokio-tungstenite",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "tokio-util"
 version = "0.7.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5869,6 +5898,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5902c5d130972a0000f60860bfbf46f7ca3db5391eddfedd1b8728bd9dc96c0e"
 
 [[package]]
+name = "tungstenite"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ef1a641ea34f399a848dea702823bbecfb4c486f911735368f1f137cb8257e1"
+dependencies = [
+ "byteorder",
+ "bytes",
+ "data-encoding",
+ "http",
+ "httparse",
+ "log",
+ "rand",
+ "sha1",
+ "thiserror",
+ "url",
+ "utf-8",
+]
+
+[[package]]
 name = "twox-hash"
 version = "1.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5961,22 +6009,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
 
 [[package]]
-name = "ureq"
-version = "2.10.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b74fc6b57825be3373f7054754755f03ac3a8f5d70015ccad699ba2029956f4a"
-dependencies = [
- "base64 0.22.1",
- "flate2",
- "log",
- "once_cell",
- "rustls 0.23.15",
- "rustls-pki-types",
- "url",
- "webpki-roots",
-]
-
-[[package]]
 name = "url"
 version = "2.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5986,6 +6018,12 @@ dependencies = [
  "idna",
  "percent-encoding",
 ]
+
+[[package]]
+name = "utf-8"
+version = "0.7.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "09cc8ee72d2a9becf2f2febe0205bbed8fc6615b7cb429ad062dc7b7ddd036a9"
 
 [[package]]
 name = "uuid"
@@ -6161,19 +6199,6 @@ name = "wasm-bindgen-shared"
 version = "0.2.95"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "65fc09f10666a9f147042251e0dda9c18f166ff7de300607007e96bdebc1068d"
-
-[[package]]
-name = "wasm-streams"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e072d4e72f700fb3443d8fe94a39315df013eef1104903cdb0a2abd322bbecd"
-dependencies = [
- "futures-util",
- "js-sys",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
-]
 
 [[package]]
 name = "wayland-backend"
@@ -6358,15 +6383,6 @@ dependencies = [
  "objc2-foundation",
  "url",
  "web-sys",
-]
-
-[[package]]
-name = "webpki-roots"
-version = "0.26.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "841c67bff177718f1d4dfefde8d8f0e78f9b6589319ba88312f567fc5841a958"
-dependencies = [
- "rustls-pki-types",
 ]
 
 [[package]]

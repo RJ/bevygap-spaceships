@@ -20,7 +20,9 @@ impl Plugin for BLEMClientPlugin {
             let wannaplay_url = get_matchmaker_url();
             info!("Matchmaker url: {wannaplay_url}");
             app.insert_resource(BevygapClientConfig {
-                wannaplay_url,
+                matchmaker_url: wannaplay_url,
+                game_name: "bevygap-spaceships".to_string(),
+                game_version: "1".to_string(),
                 // this is overwritten by the value in the  matchmaker response:
                 certificate_digest: CERTIFICATE_DIGEST.to_string(),
                 ..default()
