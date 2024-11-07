@@ -40,4 +40,4 @@ RUSTFLAGS=--cfg=web_sys_unstable_apis cargo build --release --target wasm32-unkn
 wasm-bindgen --no-typescript --target web     --out-dir ./out     --out-name "bevygap-spaceships"     ./target/wasm32-unknown-unknown/release/client.wasm
 
 
-
+if compiling via docker on mac dies with SIGKILL, probaly need to increase RAM for dockers VM.

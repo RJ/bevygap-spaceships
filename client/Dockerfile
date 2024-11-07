@@ -1,6 +1,7 @@
 FROM metabrew/rust-chef-sccache:0.0.6 AS base
 ENV RUSTFLAGS=--cfg=web_sys_unstable_apis
 ENV CARGO_BUILD_TARGET=wasm32-unknown-unknown
+#RUN rustup target add wasm32-unknown-unknown
 
 # cargo build --release --target wasm32-unknown-unknown -p client
 
