@@ -14,14 +14,7 @@ on:
 
 # This is configured to push to the edgegap container registry, where
 # our server is deployed.
-# Remember to set your DOCKER_PASSWORD secret environment variable on
-# github's settings page for your repo, so you can auth with the edgegap registry.
-env:
-  IMAGE_NAME: "metabrew-kfk5fha5fsct/bevygap-spaceships-server"
-  DOCKER_REGISTRY: "registry.edgegap.com"
-  DOCKER_USERNAME: "robot$metabrew-kfk5fha5fsct+client-push"
-  # Remember to set ${{ secrets.DOCKER_PASSWORD }} 
-
+# Remember to set your github secrets used below, see the bevygap book for details
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -33,7 +26,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME}}
+          images: registry.edgegap.com/${{ secrets.EDGEGAP_IMAGE_NAME}}
           tags: |
             type=semver,pattern={{version}}
             type=sha,format=long
@@ -45,9 +38,9 @@ jobs:
       - name: Login to Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: registry.edgegap.com
+          username: ${{ secrets.EDGEGAP_DOCKER_USERNAME }}
+          password: ${{ secrets.EDGEGAP_DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
