@@ -120,8 +120,7 @@ fn get_matchmaker_url() -> String {
                     info!("Using matchmaker url from window.location");
                     let location = window.location();
                     format!(
-                        "{}//{}{MATCHMAKER_PATH}",
-                        location.protocol().expect("expected protocol"),
+                        "wss://{}{MATCHMAKER_PATH}",
                         location.host().expect("expected host")
                     )
                     .to_string()
@@ -134,7 +133,7 @@ fn get_matchmaker_url() -> String {
                     url
                 } else {
                     info!("Using default localhost dev url for matchmaker");
-                    format!("http://127.0.0.1:3000{MATCHMAKER_PATH}")
+                    format!("ws://127.0.0.1:3000{MATCHMAKER_PATH}")
                 }
             }
         }
