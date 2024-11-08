@@ -14,6 +14,16 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 
 # Cargo Chef Builder
 FROM base AS builder
+# Use LLVM clang not default cc, otherwise prone to weird silent wasm linker failures.
+# Browser reports: 
+#    Uncaught TypeError: Failed to resolve module specifier "env".
+#    Relative references must start with either "/", "./", or "../".
+#
+# and .js file starts with:
+#   import * as __wbg_star0 from 'env';
+#
+# Using clang prevents this.
+ENV TARGET_CC=/usr/bin/clang
 WORKDIR /app
 
 COPY --from=planner /app/recipe.json recipe.json

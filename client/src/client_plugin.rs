@@ -98,7 +98,7 @@ impl Plugin for BLEMClientPlugin {
 ///
 /// Various ways to set it, depending on wasm / native:
 fn get_matchmaker_url() -> String {
-    const MATCHMAKER_PATH: &str = "/matchmaker/request/g/v";
+    const MATCHMAKER_PATH: &str = "/matchmaker/ws";
     // use compile-time env variable, this overwrites everything if set.
     match option_env!("COMPILE_TIME_MATCHMAKER_URL") {
         Some(url) => {

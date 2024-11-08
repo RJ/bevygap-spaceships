@@ -49,3 +49,19 @@ TARGET_CC=/opt/homebrew/opt/llvm/bin/clang RUSTFLAGS=--cfg=web_sys_unstable_apis
 wasm-bindgen --no-typescript --target web     --out-dir ./out     --out-name "bevygap-spaceships"     ./target/wasm32-unknown-unknown/release/client.wasm
 ```
 if compiling via docker on mac dies with SIGKILL, probaly need to increase RAM for dockers VM.
+
+#### Weird wasm linker failure
+
+At runtime in browser:
+```
+Uncaught TypeError: Failed to resolve module specifier "env". Relative references must start with either "/", "./", or "../".
+```
+.js file starts with: `import * as __wbg_star0 from 'env';`
+
+see: https://github.com/rustwasm/wasm-bindgen/discussions/3500#discussioncomment-6334669
+
+TODO: test compilation to wasm on mac. if ok, compare rust versions with gh runners..
+
+works on mac, with same rustc version. Must be clang/cc used for wasm?
+using gnu one by default maybe, trying in docker with
+TARGET_CC=/usr/bin/clang
