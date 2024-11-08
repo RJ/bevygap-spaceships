@@ -8,6 +8,10 @@ A learning exercise / starter kit / tutorial.
 
 Find me on the bevy discord as @RJ
 
+# Live Demo
+
+Is the [live demo of bevygap-spaceships](https://game.metabrew.com/bevygap-spaceships/) working? Hopefully!
+
 ## Building and Running
 
 To runserver and client during development, without the connect token stuff from bevygap:
