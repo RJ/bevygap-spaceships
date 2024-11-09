@@ -44,7 +44,7 @@ fn main() {
     app.add_plugins(client::ClientPlugins {
         config: client_config,
     });
-    app.add_plugins(BLEMSharedPlugin);
+    app.add_plugins(BevygapSpaceshipsSharedPlugin);
     app.add_plugins(BevygapSpaceshipsClientPlugin);
 
     app.run();

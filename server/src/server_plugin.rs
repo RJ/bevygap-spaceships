@@ -11,11 +11,11 @@ use lightyear::server::events::MessageEvent;
 use shared::prelude::*;
 
 #[derive(Default)]
-pub struct BLEMServerPlugin {
+pub struct BevygapSpaceshipsServerPlugin {
     pub cert_digest: String,
 }
 
-impl Plugin for BLEMServerPlugin {
+impl Plugin for BevygapSpaceshipsServerPlugin {
     fn build(&self, app: &mut App) {
         #[cfg(feature = "bevygap")]
         {

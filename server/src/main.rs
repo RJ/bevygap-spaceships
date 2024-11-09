@@ -64,8 +64,8 @@ fn main() {
         },
     });
 
-    app.add_plugins(BLEMSharedPlugin);
-    app.add_plugins(BLEMServerPlugin { cert_digest });
+    app.add_plugins(BevygapSpaceshipsSharedPlugin);
+    app.add_plugins(BevygapSpaceshipsServerPlugin { cert_digest });
 
     app.run();
 }
