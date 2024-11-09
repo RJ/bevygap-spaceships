@@ -45,7 +45,7 @@ fn main() {
         config: client_config,
     });
     app.add_plugins(BLEMSharedPlugin);
-    app.add_plugins(BLEMClientPlugin);
+    app.add_plugins(BevygapSpaceshipsClientPlugin);
 
     app.run();
 }

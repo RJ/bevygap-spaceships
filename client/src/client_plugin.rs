@@ -8,23 +8,26 @@ use lightyear::inputs::leafwing::input_buffer::InputBuffer;
 use lightyear::prelude::client::*;
 use shared::prelude::*;
 
-pub struct BLEMClientPlugin;
+/// The game name sent to the matchmaker when requesting a server to play on
+pub const GAME_NAME: &str = "bevygap-spaceships";
+/// The game version sent to the matchmaker when requesting a server to play on
+pub const GAME_VERSION: &str = "1";
 
-impl Plugin for BLEMClientPlugin {
+pub struct BevygapSpaceshipsClientPlugin;
+
+impl Plugin for BevygapSpaceshipsClientPlugin {
     fn build(&self, app: &mut App) {
         // will default to the Connect screen with a button to initiate
         app.add_plugins(screens::plugin);
 
         #[cfg(feature = "bevygap")]
         {
-            let wannaplay_url = get_matchmaker_url();
-            info!("Matchmaker url: {wannaplay_url}");
+            let matchmaker_url = get_matchmaker_url();
+            info!("Matchmaker url: {matchmaker_url}");
             app.insert_resource(BevygapClientConfig {
-                matchmaker_url: wannaplay_url,
-                game_name: "bevygap-spaceships".to_string(),
-                game_version: "1".to_string(),
-                // this is overwritten by the value in the  matchmaker response:
-                certificate_digest: CERTIFICATE_DIGEST.to_string(),
+                matchmaker_url,
+                game_name: GAME_NAME.to_string(),
+                game_version: GAME_VERSION.to_string(),
                 ..default()
             });
 
@@ -48,9 +51,7 @@ impl Plugin for BLEMClientPlugin {
         app.add_systems(
             FixedUpdate,
             (
-                // in host-server, we don't want to run the movement logic twice
-                // disable this because we also run the movement logic in the server
-                player_movement.run_if(not(is_host_server)),
+                player_movement,
                 // we don't spawn bullets during rollback.
                 // if we have the inputs early (so not in rb) then we spawn,
                 // otherwise we rely on normal server replication to spawn them
@@ -61,11 +62,7 @@ impl Plugin for BLEMClientPlugin {
         );
         app.add_systems(
             Update,
-            (
-                add_ball_physics,
-                add_bullet_physics, // TODO better to scheduled right after replicated entities get spawned?
-                handle_new_player,
-            ),
+            (add_ball_physics, add_bullet_physics, handle_new_player),
         );
         app.add_systems(
             FixedUpdate,
@@ -94,9 +91,42 @@ impl Plugin for BLEMClientPlugin {
     }
 }
 
-/// The matchmaker url responds with a ConnectToken and gameserver ip to connect to.
+/// This is the path to the websocket endpoint on `bevygap_matchmaker_httpd``
 ///
-/// Various ways to set it, depending on wasm / native:
+/// * Checks for window.MATCHMAKER_URL global variable (set in index.html)
+///
+/// otherwise, defaults to transforming the window.location:
+///
+/// * Changes http://www.example.com/whatever  -> ws://www.example.com/matchmaker/ws
+/// * Changes https://www.example.com/whatever -> wss://www.example.com/matchmaker/ws
+#[cfg(target_family = "wasm")]
+fn get_matchmaker_url() -> String {
+    const MATCHMAKER_PATH: &str = "/matchmaker/ws";
+    let window = web_sys::window().expect("expected window");
+    if let Some(obj) = window.get("MATCHMAKER_URL") {
+        info!("Using matchmaker url from window.MATCHMAKER_URL");
+        obj.as_string().expect("MATCHMAKER_URL should be a string")
+    } else {
+        info!("Creating matchmaker url from window.location");
+        let location = window.location();
+        let host = location.host().expect("Expected host");
+        let proto = if location.protocol().expect("Expected protocol") == "https:" {
+            "wss:"
+        } else {
+            "ws:"
+        };
+        format!("{proto}//{host}{MATCHMAKER_PATH}")
+    }
+}
+
+/// This is the path to the websocket endpoint on `bevygap_matchmaker_httpd``
+///
+/// * Reads COMPILE_TIME_MATCHMAKER_URL environment variable during compilation
+/// otherwise:
+/// * Reads the MATCHMAKER_URL environment variable at runtime
+/// otherwise:
+/// * Defaults to a localhost dev url.
+#[cfg(not(target_family = "wasm"))]
 fn get_matchmaker_url() -> String {
     const MATCHMAKER_PATH: &str = "/matchmaker/ws";
     // use compile-time env variable, this overwrites everything if set.
@@ -106,35 +136,12 @@ fn get_matchmaker_url() -> String {
             url.to_string()
         }
         None => {
-            // in wasm, check for a global window.MATCHMAKER_URL, otherwise fall back
-            // to the window.location with /matchmaker/wannaplay on the end.
-            // Insert our own BevygapClientConfig here to set matchmaker url:
-            #[cfg(target_family = "wasm")]
-            {
-                let window = web_sys::window().expect("expected window");
-
-                if let Some(obj) = window.get("MATCHMAKER_URL") {
-                    info!("Using matchmaker url from window.MATCHMAKER_URL");
-                    obj.as_string().expect("MATCHMAKER_URL should be a string")
-                } else {
-                    info!("Using matchmaker url from window.location");
-                    let location = window.location();
-                    format!(
-                        "wss://{}{MATCHMAKER_PATH}",
-                        location.host().expect("expected host")
-                    )
-                    .to_string()
-                }
-            }
-            #[cfg(not(target_family = "wasm"))]
-            {
-                if let Ok(url) = std::env::var("MATCHMAKER_URL") {
-                    info!("Using matchmaker url from MATCHMAKER_URL env");
-                    url
-                } else {
-                    info!("Using default localhost dev url for matchmaker");
-                    format!("ws://127.0.0.1:3000{MATCHMAKER_PATH}")
-                }
+            if let Ok(url) = std::env::var("MATCHMAKER_URL") {
+                info!("Using matchmaker url from MATCHMAKER_URL env");
+                url
+            } else {
+                warn!("Using default localhost dev url for matchmaker");
+                format!("ws://127.0.0.1:3000{MATCHMAKER_PATH}")
             }
         }
     }
