@@ -50,18 +50,9 @@ And then from this repo, run the client, setting the matchmaker URL to your loca
 MATCHMAKER_URL=ws://127.0.0.1:3000/matchmaker/ws cargo run -p client
 ```
 
+When you click connect in the client, your local matchmaker will end up talking to Edgegap, spawning or selecting a server, and you should find yourself connected to a gameserver running in Edgegap's cloud.
 
-
-
-
-
-
-To build a server docker container locally, you can say:
-```
-docker build -t bevygap-spaceships-server:latest -f server/Dockerfile .
-```
-
-I'm mostly using github actions to bake my containers. See workflows for details.
+## Remember..
 
 Ensure your envs are set.
 
@@ -82,6 +73,15 @@ Attempt to document envs used..
 | `LIGHTYEAR_CERTIFICATE_DIGEST` | Empty string                                                                                                 | Only needed if testing wasm clients without bevygap, which sets this for you           |
 | `LIGHTYEAR_PRIVATE_KEY`        | Zeroed key                                                                                                   | Required when using bevygap. Must match value in matchmaker for connect tokens to work |
 | `MATCHMAKER_URL`               | <small>Native:&nbsp;`ws://localhost:3000/matchmaker/ws`<br>Wasm:&nbsp;`ws(s)://{host}/matchmaker/ws`</small> | URL of the matchmaker service                                                          |
+
+## Server Notes
+
+To build a server docker container locally, you can say:
+```
+docker build -t bevygap-spaceships-server:latest -f server/Dockerfile .
+```
+
+I'm mostly using github actions to bake my containers. See github workflows for details.
 
 ## WASM Notes
 
