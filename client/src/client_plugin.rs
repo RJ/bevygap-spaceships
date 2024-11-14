@@ -147,25 +147,32 @@ fn get_matchmaker_url() -> String {
     }
 }
 
+/// Starts the lightyear connection process (via bevygap), when ConnectToServerRequest event is triggered.
+#[cfg(feature = "bevygap")]
 pub(crate) fn connect_client_observer(
     _trigger: Trigger<crate::screens::ConnectToServerRequest>,
     mut commands: Commands,
-    #[cfg(feature = "bevygap")] state: Res<State<BevygapClientState>>,
+    state: Res<State<BevygapClientState>>,
 ) {
     info!("Connecting...");
-    #[cfg(not(feature = "bevygap"))]
-    commands.connect_client();
-    #[cfg(feature = "bevygap")]
-    {
-        match state.get() {
-            BevygapClientState::Dormant | BevygapClientState::Error(_, _) => {
-                commands.bevygap_connect_client();
-            }
-            _ => {
-                warn!("Already trying to connect");
-            }
+    match state.get() {
+        BevygapClientState::Dormant | BevygapClientState::Error(_, _) => {
+            commands.bevygap_connect_client();
+        }
+        _ => {
+            warn!("Already trying to connect");
         }
     }
+}
+
+/// Starts the lightyear connection process, when ConnectToServerRequest event is triggered.
+#[cfg(not(feature = "bevygap"))]
+pub(crate) fn connect_client_observer(
+    _trigger: Trigger<crate::screens::ConnectToServerRequest>,
+    mut commands: Commands,
+) {
+    info!("Connecting...");
+    commands.connect_client();
 }
 
 #[cfg(feature = "bevygap")]

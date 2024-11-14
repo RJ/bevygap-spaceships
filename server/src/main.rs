@@ -150,10 +150,10 @@ pub fn build_server_netcode_config() -> (server::NetConfig, String) {
         compression: CompressionConfig::None,
     };
 
-    #[cfg(not(feature = "bevygap"))]
-    let key = DUMMY_PRIVATE_KEY;
-    #[cfg(feature = "bevygap")]
-    let key = PRIVATE_KEY;
+    let key = read_lightyear_private_key_from_env().unwrap_or_else(|| {
+        warn!("LIGHTYEAR_PRIVATE_KEY not set, using dummy key");
+        DUMMY_PRIVATE_KEY
+    });
 
     // this is to aid debugging, silly to dump it to the logs most of the time.
     // info!("🔐 Using private key: {:?}", key);

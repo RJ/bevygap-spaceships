@@ -76,11 +76,15 @@ fn get_client_net_config() -> client::NetConfig {
 
     let netcode_config = client::NetcodeConfig::default();
 
+    #[cfg(target_family = "wasm")]
+    let certificate_digest =
+        std::env::var("LIGHTYEAR_CERTIFICATE_DIGEST").unwrap_or("".to_string());
+
     let transport_config = client::ClientTransport::WebTransportClient {
         client_addr,
         server_addr,
         #[cfg(target_family = "wasm")]
-        certificate_digest: CERTIFICATE_DIGEST.to_string().replace(":", ""),
+        certificate_digest,
     };
 
     let io_config = client::IoConfig {

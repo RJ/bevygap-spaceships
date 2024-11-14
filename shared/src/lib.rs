@@ -23,15 +23,15 @@ mod renderer;
 pub mod prelude {
     pub use bevy::utils::Duration;
 
+    /// Must match on server and client. Bump it whenever you make breaking changes to the protocol.
+    pub const PROTOCOL_ID: u64 = 80085;
     pub const SERVER_PORT: u16 = 6420;
     pub const PHYSICS_SCALE: f32 = 100.0;
     pub const SERVER_REPLICATION_INTERVAL: Duration = Duration::from_millis(20);
-    pub const PROTOCOL_ID: u64 = 80085;
     pub const WALL_SIZE: f32 = 350.0;
     pub const FIXED_TIMESTEP_HZ: f64 = 64.0;
     pub const MAX_VELOCITY: f32 = 200.0;
     pub use std::f32::consts::TAU;
-    pub const CERTIFICATE_DIGEST: &str = "db:3c:d4:0d:b5:40:e2:7e:9e:8f:96:4e:95:7c:d8:52:8b:3c:9b:33:f6:af:56:b6:e9:9f:23:fa:43:82:98:ed";
 
     // For non-bevygap (ie, non-connect token) builds, we use a dummy zeroed key on client and server
     pub const DUMMY_PRIVATE_KEY: [u8; PRIVATE_KEY_BYTES] = [0; PRIVATE_KEY_BYTES];
@@ -44,6 +44,7 @@ pub mod prelude {
     #[cfg(feature = "gui")]
     pub use super::renderer::*;
 
+    pub use super::read_lightyear_private_key_from_env;
     pub use avian2d::prelude::*;
     pub use leafwing_input_manager::prelude::ActionState;
     pub use lightyear::connection::netcode::PRIVATE_KEY_BYTES;
@@ -62,4 +63,32 @@ pub fn shared_config() -> SharedConfig {
         },
         mode: Mode::Separate,
     }
+}
+
+/// Reads and parses the LIGHTYEAR_PRIVATE_KEY environment variable into a private key.
+pub fn read_lightyear_private_key_from_env() -> Option<[u8; PRIVATE_KEY_BYTES]> {
+    let Ok(key_str) = std::env::var("LIGHTYEAR_PRIVATE_KEY") else {
+        return None;
+    };
+    let private_key: Vec<u8> = key_str
+        .chars()
+        .filter(|c| c.is_ascii_digit() || *c == ',')
+        .collect::<String>()
+        .split(',')
+        .map(|s| {
+            s.parse::<u8>()
+                .expect("Failed to parse number in private key")
+        })
+        .collect();
+
+    if private_key.len() != PRIVATE_KEY_BYTES {
+        panic!(
+            "Private key must contain exactly {} numbers",
+            PRIVATE_KEY_BYTES
+        );
+    }
+
+    let mut bytes = [0u8; PRIVATE_KEY_BYTES];
+    bytes.copy_from_slice(&private_key);
+    Some(bytes)
 }
