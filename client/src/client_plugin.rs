@@ -184,13 +184,12 @@ fn render_server_metadata(mut commands: Commands, metadata: Res<ServerMetadata>)
     if metadata.fqdn.is_empty() {
         return;
     }
+    // logs will include the build info: timestamp and git sha of server you've connected to.
+    // but this isn't shown in the UI.
     info!("Got server metadata: {:?}", metadata);
     commands.spawn(
         TextBundle::from_section(
-            format!(
-                "Server {} @ {} ({})",
-                metadata.fqdn, metadata.location, metadata.build_info
-            ),
+            format!("Server {} @ {}", metadata.fqdn, metadata.location),
             TextStyle {
                 font_size: 16.0,
                 color: bevy::color::palettes::css::WHITE.into(),
