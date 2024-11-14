@@ -1004,7 +1004,7 @@ dependencies = [
 [[package]]
 name = "bevy_nfws"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.6#383d91d659d6ef101decc143c542d94cc511ce6e"
+source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.7#cbfb92829f7781b734df1c99b2ac5f8451b45ed2"
 dependencies = [
  "async-channel 2.3.1",
  "bevy",
@@ -1404,12 +1404,12 @@ dependencies = [
 [[package]]
 name = "bevygap_client_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.6#383d91d659d6ef101decc143c542d94cc511ce6e"
+source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.7#cbfb92829f7781b734df1c99b2ac5f8451b45ed2"
 dependencies = [
  "base64 0.22.1",
  "bevy",
  "bevy_nfws",
- "bevygap_shared 0.1.0 (git+https://github.com/RJ/bevygap.git?tag=v0.1.6)",
+ "bevygap_shared",
  "lightyear",
  "serde_json",
 ]
@@ -1417,12 +1417,12 @@ dependencies = [
 [[package]]
 name = "bevygap_server_plugin"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#5eaa44c74196be9f0a24d8b8ba490ab66fc76040"
+source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.7#cbfb92829f7781b734df1c99b2ac5f8451b45ed2"
 dependencies = [
  "async-nats",
  "bevy",
  "bevy-tokio-tasks",
- "bevygap_shared 0.1.0 (git+https://github.com/RJ/bevygap.git)",
+ "bevygap_shared",
  "lightyear",
  "reqwest",
  "serde",
@@ -1434,17 +1434,7 @@ dependencies = [
 [[package]]
 name = "bevygap_shared"
 version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.6#383d91d659d6ef101decc143c542d94cc511ce6e"
-dependencies = [
- "log",
- "regex",
- "serde",
-]
-
-[[package]]
-name = "bevygap_shared"
-version = "0.1.0"
-source = "git+https://github.com/RJ/bevygap.git#5eaa44c74196be9f0a24d8b8ba490ab66fc76040"
+source = "git+https://github.com/RJ/bevygap.git?tag=v0.1.7#cbfb92829f7781b734df1c99b2ac5f8451b45ed2"
 dependencies = [
  "async-nats",
  "bevy",

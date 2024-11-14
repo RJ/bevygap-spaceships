@@ -17,7 +17,7 @@ lightyear.workspace = true
 avian2d.workspace = true
 serde.workspace = true
 leafwing-input-manager.workspace = true
-bevygap_server_plugin = {git = "https://github.com/RJ/bevygap.git", optional = true}
+bevygap_server_plugin = {workspace = true, optional = true}
 
 [lints]
 workspace = true
