@@ -187,7 +187,10 @@ fn render_server_metadata(mut commands: Commands, metadata: Res<ServerMetadata>)
     info!("Got server metadata: {:?}", metadata);
     commands.spawn(
         TextBundle::from_section(
-            format!("Server {} @ {}", metadata.fqdn, metadata.location),
+            format!(
+                "Server {} @ {} ({})",
+                metadata.fqdn, metadata.location, metadata.build_info
+            ),
             TextStyle {
                 font_size: 16.0,
                 color: bevy::color::palettes::css::WHITE.into(),

@@ -236,6 +236,7 @@ pub enum PlayerActions {
 pub struct ServerMetadata {
     pub location: String,
     pub fqdn: String,
+    pub build_info: String,
 }
 
 /// Just used to replicate resources, like ServerMetadata

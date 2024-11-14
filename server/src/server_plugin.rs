@@ -79,6 +79,11 @@ fn update_server_metadata(
 ) {
     metadata.fqdn = context.fqdn();
     metadata.location = context.location();
+    metadata.build_info = format!(
+        "Git: {} built at: {}",
+        env!("VERGEN_GIT_DESCRIBE"),
+        env!("VERGEN_BUILD_TIMESTAMP")
+    );
     info!("Updating server metadata: {metadata:?}");
     commands.replicate_resource::<ServerMetadata, ResourceChannel>(NetworkTarget::All);
 }
